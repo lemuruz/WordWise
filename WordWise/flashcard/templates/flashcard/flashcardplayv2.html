@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Game</title>
+    <script>
+        let i = 0;  // Declare the index variable
+        let words = {{ flashcardwords|safe }};  // Pass the list directly from Django to JavaScript
+
+        // Function to update the displayed word
+        function showWord() {
+            if (words.length > 0) {
+                document.getElementById("showAnswer").style.display = "inline-block";
+                document.getElementById("wordDisplay").innerText = `${i+1}. ${words[i].word}`;
+                
+                document.getElementById("easyBtn").style.display = "none";
+                document.getElementById("mediumBtn").style.display = "none";
+                document.getElementById("hardBtn").style.display = "none";
+                document.getElementById("answer").innerText = "";
+            } else {
+                document.getElementById("wordDisplay").innerText = "No words available";
+            }
+        }
+        
+        function showAnswer() {
+            if (words.length > 0) {
+                document.getElementById("answer").innerText = ` ${words[i].translates} (${words[i].word_type}.)`;
+
+                document.getElementById("easyBtn").style.display = "inline-block";
+                document.getElementById("mediumBtn").style.display = "inline-block";
+                document.getElementById("hardBtn").style.display = "inline-block";
+                document.getElementById("showAnswer").style.display = "none";
+            } else {
+                document.getElementById("answer").innerText = "No answer available";
+            }
+        }
+
+        function next_word() {
+            if (i < words.length - 1) {
+                i += 1;  // Move to the next word
+            } else {
+                i = 0;  // Loop back to the first word
+            }
+            showWord();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            showWord();  // Display the first word initially
+        });
+    </script>
+</head>
+<body>
+    <h1>{{ deckname }}</h1>
+    
+    <h2 id="wordDisplay"></h2>
+    <p id="answer"></p>
+    <button 
+        onclick="showAnswer()"
+        id = "showAnswer"
+        >Show Answer</button>
+    <button 
+        id="easyBtn"
+        onclick="next_word()"
+        value=1
+        style="display: none;"
+        >Easy</button>
+    <button 
+        id="mediumBtn" 
+        onclick="next_word()"
+        value=2
+        style="display: none;"
+        >Medium</button>
+    <button 
+        id="hardBtn"
+        onclick="next_word()"
+        value=3
+        style="display: none;"
+        >Hard</button>
+    
+</body>
+</html>

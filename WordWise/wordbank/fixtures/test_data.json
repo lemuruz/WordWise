@@ -1,0 +1,562 @@
+[
+{
+  "model": "wordbank.wordbank",
+  "pk": 1,
+  "fields": {
+    "word": "cat",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "แมว"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 2,
+  "fields": {
+    "word": "dog",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "สุนัข"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 3,
+  "fields": {
+    "word": "ball",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ลูกบอล"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 4,
+  "fields": {
+    "word": "big",
+    "word_type": "adjective",
+    "meaning": "large",
+    "translates": "ใหญ่"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 5,
+  "fields": {
+    "word": "jump",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "กระโดด"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 6,
+  "fields": {
+    "word": "apple",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "แอปเปิ้ล"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 7,
+  "fields": {
+    "word": "bed",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "เตียง"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 8,
+  "fields": {
+    "word": "book",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "หนังสือ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 9,
+  "fields": {
+    "word": "cup",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ถ้วย"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 10,
+  "fields": {
+    "word": "tree",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ต้นไม้"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 11,
+  "fields": {
+    "word": "car",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "รถ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 12,
+  "fields": {
+    "word": "run",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "วิ่ง"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 13,
+  "fields": {
+    "word": "go",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "ไป"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 14,
+  "fields": {
+    "word": "small",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "เล็ก"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 15,
+  "fields": {
+    "word": "happy",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "มีความสุข"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 16,
+  "fields": {
+    "word": "sad",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "เศร้า"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 17,
+  "fields": {
+    "word": "fast",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "เร็ว"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 18,
+  "fields": {
+    "word": "slow",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "ช้า"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 19,
+  "fields": {
+    "word": "red",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "สีแดง"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 20,
+  "fields": {
+    "word": "blue",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "สีฟ้า"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 21,
+  "fields": {
+    "word": "green",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "สีเขียว"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 22,
+  "fields": {
+    "word": "yellow",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "สีเหลือง"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 23,
+  "fields": {
+    "word": "walk",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "เดิน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 24,
+  "fields": {
+    "word": "play",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "เล่น"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 25,
+  "fields": {
+    "word": "eat",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "กิน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 26,
+  "fields": {
+    "word": "drink",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "ดื่ม"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 27,
+  "fields": {
+    "word": "see",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "เห็น"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 28,
+  "fields": {
+    "word": "hear",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "ได้ยิน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 29,
+  "fields": {
+    "word": "smell",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "ได้กลิ่น"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 30,
+  "fields": {
+    "word": "touch",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "แตะ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 31,
+  "fields": {
+    "word": "hot",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "ร้อน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 32,
+  "fields": {
+    "word": "cold",
+    "word_type": "adjective",
+    "meaning": "-",
+    "translates": "เย็น"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 33,
+  "fields": {
+    "word": "sun",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ดวงอาทิตย์"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 34,
+  "fields": {
+    "word": "moon",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ดวงจันทร์"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 35,
+  "fields": {
+    "word": "star",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ดวงดาว"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 36,
+  "fields": {
+    "word": "cloud",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "เมฆ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 37,
+  "fields": {
+    "word": "rain",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ฝน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 38,
+  "fields": {
+    "word": "snow",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "หิมะ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 39,
+  "fields": {
+    "word": "day",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "วัน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 40,
+  "fields": {
+    "word": "night",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "กลางคืน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 41,
+  "fields": {
+    "word": "open",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "เปิด"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 42,
+  "fields": {
+    "word": "close",
+    "word_type": "verb",
+    "meaning": "-",
+    "translates": "ปิด"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 43,
+  "fields": {
+    "word": "up",
+    "word_type": "adverb",
+    "meaning": "-",
+    "translates": "ขี้น"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 44,
+  "fields": {
+    "word": "down",
+    "word_type": "adverb",
+    "meaning": "-",
+    "translates": "ลง"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 45,
+  "fields": {
+    "word": "in",
+    "word_type": "preposition",
+    "meaning": "-",
+    "translates": "ใน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 46,
+  "fields": {
+    "word": "out",
+    "word_type": "preposition",
+    "meaning": "-",
+    "translates": "ออก"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 47,
+  "fields": {
+    "word": "inside",
+    "word_type": "adverb",
+    "meaning": "-",
+    "translates": "ด้านใน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 48,
+  "fields": {
+    "word": "outside",
+    "word_type": "adverb",
+    "meaning": "-",
+    "translates": "ด้านนอก"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 49,
+  "fields": {
+    "word": "under",
+    "word_type": "preposition",
+    "meaning": "-",
+    "translates": "ด้านใต้"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 50,
+  "fields": {
+    "word": "over",
+    "word_type": "preposition",
+    "meaning": "-",
+    "translates": "ด้านบน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 51,
+  "fields": {
+    "word": "family",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "ครอบครัว"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 52,
+  "fields": {
+    "word": "school",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "โรงเรียน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 53,
+  "fields": {
+    "word": "house",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "บ้าน"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 54,
+  "fields": {
+    "word": "table",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "โต๊ะ"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 55,
+  "fields": {
+    "word": "chair",
+    "word_type": "noun",
+    "meaning": "-",
+    "translates": "เก้าอี้"
+  }
+},
+{
+  "model": "wordbank.wordbank",
+  "pk": 56,
+  "fields": {
+    "word": "pencil",
+    "word_type": "ดินสอ",
+    "meaning": "-",
+    "translates": "ดินสอ"
+  }
+}
+]

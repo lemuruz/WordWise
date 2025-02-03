@@ -1,0 +1,29 @@
+[
+{
+  "model": "flashcard.flashcarddeck",
+  "pk": 1,
+  "fields": {
+    "name": "verybasic",
+    "words": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  }
+},
+{
+  "model": "flashcard.flashcarddeck",
+  "pk": 2,
+  "fields": {
+    "name": "study",
+    "words": [
+      52,
+      54,
+      55,
+      56
+    ]
+  }
+}
+]

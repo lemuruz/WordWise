@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Game</title>
+</head>
+<body>
+    <h1>{{deckname}}</h1>
+
+    {% if flashcardwords %}
+        <h2>{{ flashcardwords.word }}</h2>
+        <p style="visibility:hidden;" id="meaning">{{ flashcardwords.translates }} ({{ flashcardwords.word_type }})</p>
+        <button onclick="document.getElementById('meaning').style.visibility='visible'">Show Answer</button>
+        
+        <form action="{% url 'flashcard:next_word' %}" method="post">
+            {% csrf_token %}
+            <p>How easy was this word?</p>
+            <button type="submit" name="score" value="1">Easy</button>
+            <button type="submit" name="score" value="2">Medium</button>
+            <button type="submit" name="score" value="3">Hard</button>
+        </form>
+    {% else %}
+        <p>No words available</p>
+    {% endif %}
+</body>
+</html>
