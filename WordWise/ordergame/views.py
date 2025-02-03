@@ -4,3 +4,6 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("ordergame")
+
+def game(request):
+    return render(request, 'ordergame/game.html')

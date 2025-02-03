@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Order Game</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ordergame/gamestyle.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sentence-box">
+            <p>Arrange this sentence correctly:</p>
+            <p class="original-sentence">The quick brown fox jumps over the lazy dog.</p>
+        </div>
+        <div class="blank-blocks" id="blank-blocks">
+            <!-- Blank blocks will be generated dynamically -->
+        </div>
+        <div class="word-line" id="word-line">
+            <!-- Word blocks will be generated dynamically -->
+        </div>
+        <button id="check-btn">OK</button>
+    </div>
+</body>
+</html>
