@@ -14,6 +14,9 @@ def flashcardplay(request, deck_id):
     return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck.name,
                                                            'flashcardwords': words})
 
+def flashcardend(request):
+    return render(request,"flashcard/flashcardend.html")
+
 # def flashcardplay(request, deck_id):
 #     request.session["deck_id"] = deck_id
 #     deck = get_object_or_404(flashCardDeck, id=deck_id)

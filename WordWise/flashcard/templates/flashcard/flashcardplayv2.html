@@ -38,15 +38,15 @@
 
         function next_word() {
             if (i < words.length - 1) {
-                i += 1;  // Move to the next word
+                i += 1;  
             } else {
-                i = 0;  // Loop back to the first word
+                window.location.href = "{% url 'flashcard:flashcardend' %}";
             }
             showWord();
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            showWord();  // Display the first word initially
+            showWord();  
         });
     </script>
 </head>

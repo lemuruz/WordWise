@@ -2,6 +2,9 @@ import random
 from django.shortcuts import render
 from wordbank.models import wordBank
 
+def index():
+    pass
+
 def get_words_with_shared_letters(all_words, num_words=5):
     selected_words = []
     while len(selected_words) < num_words:

@@ -5,6 +5,6 @@ app_name = "flashcard"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    # path('next_word/', views.next_word, name='next_word'),
+    path('end/', views.flashcardend, name='flashcardend'),
     path('flashcard/play/<int:deck_id>/', views.flashcardplay, name="flashcardplay"),
 ]

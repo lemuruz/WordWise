@@ -55,7 +55,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         # 2. ปาร์คคลิกที่ลิงก์ "Go to Flashcard Game" เพื่อเข้าสู่เกมแฟลชการ์ด
-        # self.browser.find_element(By.LINK_TEXT, "Go to Flashcard Game").click()
+        self.browser.find_element(By.LINK_TEXT, "Go to Flashcard Game").click()
         self.assertIn("Choose Your Flashcard Deck", self.browser.page_source)
 
         # 3. ปาร์คเห็นตัวเลือก verybasic,study และเลือก verybasic

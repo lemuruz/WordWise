@@ -6,5 +6,5 @@ urlpatterns = [
     path("flashcard/", include("flashcard.urls")),
     path("crossword/",include("crossword.urls")),
     path("ordergame/",include("ordergame.urls")),
-    path("admin", admin.site.urls)
+    path("admin/", admin.site.urls)
 ]
