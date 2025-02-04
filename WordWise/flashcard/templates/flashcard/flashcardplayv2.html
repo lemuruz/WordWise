@@ -7,7 +7,7 @@
     <script>
         let i = 0;  // Declare the index variable
         let words = {{ flashcardwords|safe }};  // Pass the list directly from Django to JavaScript
-
+        let score = 0;
         // Function to update the displayed word
         function showWord() {
             if (words.length > 0) {
@@ -40,10 +40,13 @@
             if (i < words.length - 1) {
                 i += 1;  
             } else {
-                window.location.href = "{% url 'flashcard:flashcardend' %}";
+                window.location.href = "{% url 'flashcard:flashcardend' %}?score=" + score + "&flashcardlength=" + words.length;
             }
             showWord();
         }
+
+        function addscore(scoreValue){
+            score += scoreValue};
 
         document.addEventListener("DOMContentLoaded", function() {
             showWord();  
@@ -65,19 +68,19 @@
         >Show Answer</button>
     <button 
         id="easyBtn"
-        onclick="next_word()"
+        onclick="addscore(3);next_word();"
         value=1
         style="display: none;"
         >Easy</button>
     <button 
         id="mediumBtn" 
-        onclick="next_word()"
+        onclick="addscore(2);next_word()"
         value=2
         style="display: none;"
         >Medium</button>
     <button 
         id="hardBtn"
-        onclick="next_word()"
+        onclick="addscore(1);next_word();"
         value=3
         style="display: none;"
         >Hard</button>
