@@ -6,19 +6,35 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 800px; /* Increased size */
+    height: 500px; /* Added height */
     margin: auto;
-    padding: 20px;
+    padding: 30px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
 }
 
+/* Top-left "Order Word" text */
+.header {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Sentence display */
 .sentence-box {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-top: 40px; /* Added spacing for title */
 }
 
+/* Blank blocks for word placement */
 .blank-blocks {
     display: flex;
     justify-content: center;
@@ -38,6 +54,7 @@ body {
     cursor: pointer;
 }
 
+/* Word bank */
 .word-line {
     display: flex;
     justify-content: center;
@@ -58,6 +75,13 @@ body {
 
 .word-block:hover {
     background-color: #2980b9;
+}
+
+/* Bottom-right button */
+.button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
 }
 
 button {
