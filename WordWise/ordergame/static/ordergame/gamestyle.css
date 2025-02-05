@@ -1,3 +1,11 @@
+* {
+    user-select: none; /* Prevent text selection */
+    -webkit-user-drag: none; /* Disable dragging on WebKit browsers (Chrome, Safari) */
+    -moz-user-select: none; /* Firefox specific */
+    -ms-user-select: none; /* IE and Edge specific */
+}
+
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -34,24 +42,18 @@ body {
     margin-top: 40px; /* Added spacing for title */
 }
 
-/* Blank blocks for word placement */
+/* Blank word line (Now a single row instead of separate blocks) */
 .blank-blocks {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
-}
-
-.blank-block {
-    width: 100px;
-    height: 40px;
+    min-height: 50px; /* Ensures space for words */
     background-color: #ddd;
     border: 2px dashed #aaa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 /* Word bank */
@@ -61,7 +63,10 @@ body {
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 20px;
+    min-height: 40px;
+    visibility: visible;
 }
+
 
 .word-block {
     padding: 10px 15px;

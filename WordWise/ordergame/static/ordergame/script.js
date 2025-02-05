@@ -6,38 +6,11 @@ function shuffleWord(words){
     return words;
 }
 
-function moveToSentence(text){
-    const senLine = document.getElementById("blank-blocks")
-
-    const wordInSen = document.createElement("div");
-    wordInSen.classList.add("word-block");
-    wordInSen.textContent = text;
-    senLine.appendChild(wordInSen);
-
-    wordInSen.addEventListener('click', function(){
-        moveToSelector(text);
-        wordInSen.remove();
-    });
-}
-
-function moveToSelector(text){
-    const wordLine = document.getElementById("word-line");
-    
-    const wordBlock = document.createElement("div");
-    wordBlock.classList.add("word-block");
-    wordBlock.textContent = text;
-    wordLine.appendChild(wordBlock);
-
-    wordBlock.addEventListener('click', function(){
-        moveToSentence(text);
-        wordBlock.remove();
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Split sentence while keeping punctuation as separate words
+document.addEventListener("DOMContentLoaded", function(){
+    //Words Part
     let words = sent_data.match(/[\w'-]+|[.?]/g);
     words = shuffleWord(words);
+
     console.log(words);
 
     const wordLine = document.getElementById("word-line");
@@ -49,8 +22,48 @@ document.addEventListener("DOMContentLoaded", function () {
         wordLine.appendChild(wordBlock);
 
         wordBlock.addEventListener('click', function(){
-            moveToSentence(word);
-            wordBlock.remove();
+            moveToSentence(word, wordBlock);
         });
+    });
+
+    function moveToSentence(text, element) {
+        element.remove();
+        const blankBlocks = document.getElementById("blank-blocks");
+        const wordInSen = document.createElement("div");
+        wordInSen.classList.add("word-block");
+        wordInSen.textContent = text;
+        blankBlocks.appendChild(wordInSen);
+
+        wordInSen.addEventListener('click', function(){
+            moveToSelector(text, wordInSen);
+        });
+    }
+
+    function moveToSelector(text, element) {
+        element.remove();
+        const wordLine = document.getElementById("word-line");
+        const wordBlock = document.createElement("div");
+        wordBlock.classList.add("word-block");
+        wordBlock.textContent = text;
+        wordLine.appendChild(wordBlock);
+        wordLine.style.visibility = "visible";
+
+        wordBlock.addEventListener('click', function(){
+            moveToSentence(text, wordBlock);
+            if (wordLine.children.length === 0) {
+                wordLine.style.visibility = "hidden";
+            }
+        });
+    }
+
+    //OK Button Part
+    const check_button = document.getElementById("check-btn")
+    check_button.addEventListener('click', function(){
+        const usrSenElem = document.getElementById("blank-blocks").children;
+        var finalSen = ""
+        for(let word of usrSenElem){
+            finalSen += word.textContent;
+        }
+        console.log(finalSen);
     });
 });
