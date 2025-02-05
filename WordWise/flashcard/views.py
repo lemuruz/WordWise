@@ -15,7 +15,12 @@ def flashcardplay(request, deck_id):
                                                            'flashcardwords': words})
 
 def flashcardend(request):
-    return render(request,"flashcard/flashcardend.html")
+    score = request.GET.get('score',0)
+    flashcard_length = request.GET.get('flashcardlength',0)
+    return render(request,"flashcard/flashcardend.html",{
+        'score' : score,
+        'maxscore' : int(flashcard_length)*3,
+    })
 
 # def flashcardplay(request, deck_id):
 #     request.session["deck_id"] = deck_id
