@@ -5,7 +5,7 @@
     <h1 class="text-2xl font-bold mb-4 text-center">Welcome to Crossword Game</h1>
 
     <div class="game-box">
-        <!-- กริด crossword ขนาด 15x15 -->
+        <!-- กริด crossword -->
         <div class="crossword-grid" id="crosswordGrid"></div>
 
         <!-- ตารางคำใบ้ -->
@@ -14,22 +14,19 @@
             <div class="hint-table" id="hintTable">
                 {% for word in words %}
                     <div class="hint-item" data-word="{{ word.word }}">
-                        <strong>{{forloop.counter}}.</strong>{{word.meaning }}
+                        <strong>{{ forloop.counter }}.</strong> {{ word.meaning }}
                     </div>
-                    <div class="hint-item" data-word="{{ word.word }}">
-                        {{ word.word }}
+                    <div class="answer" data-words="{{ word.word }}">
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 
-    <!-- ปุ่มเช็คคำตอบ -->
     <button id="checkButton" class="mt-4 px-4 py-2 bg-blue-500 text-white">Check</button>
 </div>
 
 <style>
-    /* สไตล์การจัดตาราง */
     .game-box {
         display: flex;
         gap: 20px;
@@ -42,7 +39,6 @@
         margin: 0 auto;
     }
 
-    /* กริด crossword ขนาด 15x15 */
     .crossword-grid {
         display: grid;
         grid-template-columns: repeat(15, 30px);
@@ -53,7 +49,6 @@
         border: 2px solid green;
     }
 
-    /* เซลล์กริด */
     .grid-cell {
         width: 30px;
         height: 30px;
@@ -64,7 +59,6 @@
         justify-content: center;
     }
 
-    /* การจัดการ input */
     .grid-cell input {
         width: 100%;
         height: 100%;
@@ -77,14 +71,9 @@
     }
 
     .grid-cell input:focus {
-        background-color: #e6f3ff; /* สีพื้นหลังเมื่อมีการกรอกข้อมูล */
+        background-color: #e6f3ff;
     }
 
-    .selected {
-        background-color: #e6f3ff; /* สีพื้นหลังเมื่อเลือกเซลล์ */
-    }
-
-    /* ตารางคำใบ้ */
     .hint-container {
         width: 400px;
         margin-left: 40px;
@@ -110,14 +99,14 @@
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const gridSize = 15;
     const grid = document.getElementById('crosswordGrid');
-
-    let cells = {}; // เก็บเซลล์ทั้งหมดเพื่อใช้งานภายหลัง
-    let usedPositions = new Set(); // ตรวจสอบตำแหน่งที่ถูกใช้แล้ว
-
-    // สร้างเซลล์กริดขนาด 15x15
+    
+    let cells = {}; 
+    let usedPositions = new Set(); 
+    
+    // สร้างตาราง crossword
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             const cell = document.createElement('div');
@@ -142,42 +131,146 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ดึงข้อมูล words จาก Django template
-    const words = [];
-    document.querySelectorAll('.hint-item').forEach(hint => {
-        words.push(hint.dataset.word);
+    // ดึงข้อมูล words และสุ่มเลือก 5 คำที่ไม่ซ้ำกัน
+    const allWords = [];
+    document.querySelectorAll('.answer').forEach(ans => {
+        allWords.push(ans.dataset.words);
     });
 
-    // ฟังก์ชันสุ่มตำแหน่งที่ยังไม่ถูกใช้
-    function getRandomPosition() {
-        let row, col;
-        do {
-            row = Math.floor(Math.random() * gridSize);
-            col = Math.floor(Math.random() * gridSize);
-        } while (usedPositions.has(`${row},${col}`));
-        usedPositions.add(`${row},${col}`);
-        return { row, col };
+    // ฟังก์ชันสุ่มคำที่ไม่ซ้ำกัน
+    function getRandomUniqueWords(wordList, count) {
+        const shuffled = [...wordList].sort(() => 0.5- Math.random());
+        return shuffled.slice(0, count);
     }
 
-    // กำหนดหมายเลขให้กับ crossword grid
-    words.forEach((word, index) => {
-        let { row, col } = getRandomPosition();
-        let cell = cells[`${row},${col}`];
-
-        if (cell) {
-            const label = document.createElement('div');
-            label.innerText = index + 1; // หมายเลขคำใบ้
-            label.style.position = 'absolute';
-            label.style.fontSize = '10px';
-            label.style.color = 'black';
-            label.style.top = '2px';
-            label.style.left = '2px';
-
-            cell.style.position = 'relative';
-            cell.appendChild(label);
+    // เลือก 5 คำที่ไม่ซ้ำกัน
+    const selectedWords = getRandomUniqueWords(allWords, 5);
+    console.log(selectedWords);
+    
+    function isValidPlacement(row, col, word, direction) {
+        if (direction == 'horizontal') {
+            if (col + word.length > gridSize) return false;
+        } else {
+            if (row + word.length > gridSize) return false;
         }
-    });
-});
 
-</script>
+        // เช็คว่ามีพื้นที่พอและไม่ทับคำอื่นที่ไม่ตรงกัน
+        for (let i = 0; i < word.length; i++) {
+            let newRow = row + (direction == 'vertical' ? i : 0);
+            let newCol = col + (direction == 'horizontal' ? i : 0);
+            let key = `${newRow},${newCol}`;
+
+            if (usedPositions.has(key)) {
+                let existingLetter = cells[key].firstChild.value;
+                if (existingLetter && existingLetter !== word[i].toUpperCase()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function getValidPosition(word, maxAttempts = 100) {
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            let row = Math.floor(Math.random() * gridSize);
+            let col = Math.floor(Math.random() * gridSize);
+            let direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
+
+            if (isValidPlacement(row, col, word, direction)) {
+                return { row, col, direction, success: true };
+            }
+        }
+        return { success: false };
+    }
+
+    function placeWord(word, index) {
+        let position = getValidPosition(word);
+        if (position.success) {
+            let { row, col, direction } = position;
+
+            // วางตัวอักษร
+            for (let i = 0; i < word.length; i++) {
+                let newRow = row + (direction == 'vertical' ? i : 0);
+                let newCol = col + (direction == 'horizontal' ? i : 0);
+                let key = `${newRow},${newCol}`;
+                let cell = cells[key];
+
+                if (cell) {
+                    cell.firstChild.value = word[i].toUpperCase();
+                    // cell.firstChild.value = ""
+                    // cell.firstChild.readOnly = true;
+                    usedPositions.add(key);
+                }
+            }
+
+            // ใส่หมายเลขกำกับ
+            let startCell = cells[`${row},${col}`];
+            if (startCell) {
+                const label = document.createElement('div');
+                label.innerText = index + 1;
+                label.style.position = 'absolute';
+                label.style.fontSize = '10px';
+                label.style.color = 'black';
+                label.style.top = '2px';
+                label.style.left = '2px';
+
+                startCell.style.position = 'relative';
+                startCell.appendChild(label);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // พยายามวางคำจนกว่าจะสำเร็จ
+    function attemptPlacement(maxAttempts = 500) {
+        let attempt = 0;
+        while (attempt < maxAttempts) {
+            // รีเซ็ตกริด
+            usedPositions.clear();
+            for (let key in cells) {
+                let cell = cells[key];
+                cell.firstChild.value = '';
+                cell.firstChild.readOnly = false;
+                cell.style.backgroundColor = '#fff';
+                const label = cell.querySelector('div');
+                if (label) {
+                    cell.removeChild(label);
+                }
+            }
+
+            // พยายามวางทุกคำ
+            let allPlaced = true;
+            for (let i = 0; i < selectedWords.length; i++) {
+                if (!placeWord(selectedWords[i], i)) {
+                    allPlaced = false;
+                    break;
+                }
+            }
+
+            if (allPlaced) {
+                // ถ้าวางสำเร็จ ใส่สีดำในช่องว่าง
+                for (let i = 0; i < gridSize; i++) {
+                    for (let j = 0; j < gridSize; j++) {
+                        let cell = cells[`${i},${j}`];
+                        if (cell.firstChild.value === '') {
+                            cell.style.backgroundColor = 'black';
+                        }
+                    }
+                }
+                return true;
+            }
+            attempt++;
+        }
+        return false;
+    }
+
+    // เริ่มพยายามวางคำ
+    if (!attemptPlacement()) {
+        alert('ไม่สามารถวางคำได้ครบ กรุณารีเฟรชหน้าเว็บเพื่อลองใหม่');
+    }
+});
+    </script>
+    
 {% endblock %}
