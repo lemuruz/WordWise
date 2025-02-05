@@ -1,0 +1,104 @@
+* {
+    user-select: none; /* Prevent text selection */
+    -webkit-user-drag: none; /* Disable dragging on WebKit browsers (Chrome, Safari) */
+    -moz-user-select: none; /* Firefox specific */
+    -ms-user-select: none; /* IE and Edge specific */
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px; /* Increased size */
+    height: 500px; /* Added height */
+    margin: auto;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Top-left "Order Word" text */
+.header {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Sentence display */
+.sentence-box {
+    font-size: 18px;
+    margin-top: 40px; /* Added spacing for title */
+}
+
+/* Blank word line (Now a single row instead of separate blocks) */
+.blank-blocks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-height: 50px; /* Ensures space for words */
+    background-color: #ddd;
+    border: 2px dashed #aaa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Word bank */
+.word-line {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    min-height: 40px;
+    visibility: visible;
+}
+
+
+.word-block {
+    padding: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s;
+}
+
+.word-block:hover {
+    background-color: #2980b9;
+}
+
+/* Bottom-right button */
+.button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #27ae60;
+}

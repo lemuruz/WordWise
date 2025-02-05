@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +32,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'wordbank.apps.WordbankConfig',
     'menu',
+    'user',
     'crossword',
     'flashcard',
     'ordergame',
@@ -126,3 +126,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"  # Use signed cookies
+SESSION_COOKIE_HTTPONLY = True  # Prevent JS from accessing cookies
+SESSION_COOKIE_SECURE = False  # Change to True if using HTTPS
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session even if browser closes
+SESSION_COOKIE_SAMESITE = "Lax"  # Ensure cookies work across pages

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Order Game</title>
+    <script>
+        const sent_data = "{{ the_sentence|escapejs }}";
+    </script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ordergame/gamestyle.css' %}">
+    <script src="{% static 'ordergame/script.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <p class="game-title">Order Word</p>
+        </div>
+        <div class="sentence-box">
+            <p class="original-sentence">{{ the_sentence }}</p>
+        </div>
+        <div class="blank-blocks" id="blank-blocks">
+            <!-- Blank blocks will be generated dynamically -->
+        </div>
+        <div class="word-line" id="word-line">
+            <!-- Word Block Create by the script.js -->
+        </div>
+        <div class="button-container">
+            <button id="check-btn">OK</button>
+        </div>
+    </div>
+</body>
+</html>
