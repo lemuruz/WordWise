@@ -15,7 +15,7 @@
         {% for deck in flashcarddeck %}
             <!-- Use anchor tag or use button and set window.location.href correctly -->
             <button 
-                id="deck_{{ deck.id }}"
+                id="{{ deck.name }}"
                 type="button"
                 onclick="window.location.href='{% url 'flashcard:flashcardplay' deck.id %}'">
                 {{ deck.name }}
