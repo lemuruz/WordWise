@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'wordbank.apps.WordbankConfig',
     'menu',
     'user',
-    'crossword',
+    'hangman',
     'flashcard',
     'ordergame',
     'django.contrib.admin',
