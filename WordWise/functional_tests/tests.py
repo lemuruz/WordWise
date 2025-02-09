@@ -71,7 +71,7 @@ class NewVisitorTest(LiveServerTestCase):
         word_element = self.browser.find_element(By.ID, "wordDisplay")
         self.assertIn("school", word_element.text)
         
-        # 5. ปาร์คนึกได้ว่าคำนี้แปลว่าแมว และ กด “ดูคำตอบ” 
+        # 5. ปาร์คนึกได้ว่าคำนี้แปลว่าโรงเรียน และ กด “ดูคำตอบ” 
         show_answer_button = self.browser.find_element(By.ID, "showAnswer")
         show_answer_button.click()
 

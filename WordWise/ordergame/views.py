@@ -9,3 +9,6 @@ def index(request):
 def game(request):
     random_sentence = sentences.objects.order_by('?').first().sentence
     return render(request, 'ordergame/game.html', {'the_sentence': random_sentence})
+
+def test(request):
+    return render(request, 'ordergame/game.html', {'the_sentence': 'I play violin.'})

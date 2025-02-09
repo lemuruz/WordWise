@@ -11,9 +11,13 @@ document.addEventListener("DOMContentLoaded", function(){
     let words = sent_data.match(/[\w'-]+|[.?]/g);
     words = shuffleWord(words);
 
-    console.log(words);
-
     const wordLine = document.getElementById("word-line");
+
+    //Get modal popup
+
+    const popup = document.getElementById("popup");
+    const popupMessage = document.getElementById("popup-message");
+    const popupClose = document.getElementById("popup-close");
 
     words.forEach(word => {
         const wordBlock = document.createElement("div");
@@ -25,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function(){
             moveToSentence(word, wordBlock);
         });
     });
+
+    //Words arrange Part
 
     function moveToSentence(text, element) {
         element.remove();
@@ -56,6 +62,23 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
+    // Popup part
+    function showPopup(correctness) {
+        popup.setAttribute("data-correct", correctness); // Set correctness as attribute
+        popupMessage.textContent = correctness ? "✅ Correct!" : "❌ Incorrect. Try again!";
+        popupClose.classList = correctness ? "popup-close-pass" : "popup-close-fail";
+        popupClose.textContent = correctness ? "Next" : "Retry";
+        popup.style.display = "block";
+    }
+
+    popupClose.addEventListener("click", function () {
+        popup.style.display = "none";
+        if (popup.getAttribute("data-correct") === "true") {
+            window.location.reload(true);
+        }
+    });
+
+
     //OK Button Part
     const check_button = document.getElementById("check-btn")
     check_button.addEventListener('click', function(){
@@ -64,6 +87,10 @@ document.addEventListener("DOMContentLoaded", function(){
         for(let word of usrSenElem){
             finalSen += word.textContent;
         }
-        console.log(finalSen);
+        if(finalSen == sent_data.replace(/\s+/g, '')){
+            showPopup(correctness=true);
+        } else {
+            showPopup(correctness=false);
+        }
     });
 });
