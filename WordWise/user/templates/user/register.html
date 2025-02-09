@@ -4,57 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <script>
-        async function checkUser() {
-            const response = await fetch("/user/info/");
-            const result = await response.json();
-
-            if (response.ok) {
-                document.getElementById("user-label").textContent = "Logged in as: " + result.username;
-                document.getElementById("logout-btn").style.display = "block";
-            } else {
-                document.getElementById("user-label").textContent = "Not logged in";
-                document.getElementById("logout-btn").style.display = "none";
-            }
-        }
-
-        async function registerUser(event) {
-            event.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const csrfToken = document.getElementById("csrf_token").value;
-
-            const response = await fetch("/user/register/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken
-                },
-                body: JSON.stringify({ username, password })
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert("User registered successfully!");
-                window.location.href = "/user/login";
-            } else {
-                alert(result.error);
-            }
-        }
-
-        async function logoutUser() {
-            await fetch("/user/logout/");
-            window.location.href = "/user/login";
-        }
-
-        window.onload = checkUser;
-    </script>
+    {% load static %}
+    <script src="{% static 'user/register.js' %}" defer></script>
 </head>
 <body>
-    <!-- <div style="position: absolute; top: 10px; left: 10px;">
-        <span id="user-label">Not logged in</span>
-        <button id="logout-btn" onclick="logoutUser()" style="display: none;">Logout</button>
-    </div> -->
 
     <h2>Register</h2>
     <form onsubmit="registerUser(event)">
@@ -62,7 +15,9 @@
         <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
         <input type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="confirmPassword" placeholder="Type Password Again" required>
         <button type="submit">Register</button>
     </form>
+
 </body>
 </html>
