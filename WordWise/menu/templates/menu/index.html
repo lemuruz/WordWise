@@ -27,8 +27,14 @@
         }
 
         async function logoutUser() {
-            await fetch("user/logout");
+            const response = await fetch("/user/logout/", { method: "POST" }); // Ensure it's a POST request
+            if (response.redirected) {
+                window.location.href = response.url;  // Follow the redirect
+        } else {
+            window.location.reload();  // Fallback to reloading the page
+            }
         }
+
 
         window.onload = checkUser;
     </script>

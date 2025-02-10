@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from .models import Account
 from django.contrib.auth.hashers import make_password,check_password
+from django.urls import reverse
 
 @csrf_exempt
 def register(request):
@@ -47,10 +48,12 @@ def login(request):
 
     return render(request, "user/login.html")
 
+@csrf_exempt  # Disable CSRF for now (optional, but recommended to use CSRF token)
 def logout(request):
-    request.session.flush()  # Clear session
-    # return redirect("/user/login/")  # Redirect to login page
-    return redirect()
+    if request.method == "POST":
+        request.session.flush()  # Clear session
+        return redirect(reverse('menu:index'))
+    return redirect(reverse('menu:index'))  # Default GET behavior
 
 def get_user_info(request):
     username = request.session.get("username")
