@@ -51,9 +51,9 @@ def login(request):
 @csrf_exempt  # Disable CSRF for now (optional, but recommended to use CSRF token)
 def logout(request):
     if request.method == "POST":
-        request.session.flush()  # Clear session
+        request.session.flush()
         return redirect(reverse('menu:index'))
-    return redirect(reverse('menu:index'))  # Default GET behavior
+    return redirect(reverse('menu:index'))
 
 def get_user_info(request):
     username = request.session.get("username")
