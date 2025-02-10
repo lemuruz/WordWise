@@ -17,9 +17,10 @@ def register(request):
 
             if Account.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists"}, status=400)
-
             
-            Account.objects.create(username=username, password=password)
+            hashed_password = make_password(password)
+            
+            Account.objects.create(username=username, password=hashed_password)
 
             return JsonResponse({"message": "User registered successfully!"})
         
@@ -37,7 +38,7 @@ def login(request):
             password = data.get("password")
 
             user = Account.objects.filter(username=username).first()
-            if user and (password == user.password):  # 🔹 Verify hashed password
+            if user and check_password(password,user.password):  # 🔹 Verify hashed password
                 request.session["username"] = user.username  # Store username in session
                 return JsonResponse({"message": "Login successful"})
             else:
