@@ -1,25 +1,29 @@
-
-import unittest,time
+import unittest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase  # Changed from LiveServerTestCase
 from flashcard.models import flashCardDeck
 from user.models import Account
+
 MAX_WAIT = 10
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):  # Changed to StaticLiveServerTestCase
     fixtures = ['test_data.json']
+    
     def setUp(self):
         self.browser = webdriver.Chrome()
-
+        # Ensure the test data is loaded before printing
+        self.setUpClass()
         decks = flashCardDeck.objects.all()
         print("Available decks:", [deck.name for deck in decks])
         Account.objects.create(username="best", password="1234")
 
     def tearDown(self):
         self.browser.quit()
+
 
     def test_flashcard_game(self):
         # 1. ปาร์คเปิดหน้าแรกของเว็บไซต์
