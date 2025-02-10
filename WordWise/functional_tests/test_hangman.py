@@ -22,7 +22,7 @@ class HangmanGameTest(LiveServerTestCase):
         wordBank.objects.create(word="BED", meaning="A piece of furniture for sleeping on")
 
         # ปาร์คกดเข้าลิงค์ Hangman game จากหน้าเมนู 
-        time.sleep(1)
+        
         hangman_link = self.driver.find_element(By.LINK_TEXT, "Hangman Game")
         hangman_link.click()
 
@@ -51,9 +51,9 @@ class HangmanGameTest(LiveServerTestCase):
         # ปาร์คใส่ตัวอักษร A และกดปุ่ม Guess
         input_field = self.driver.find_element(By.NAME, "letter")
         guess_button = self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-        time.sleep(1)
+        
         input_field.send_keys("A")
-        time.sleep(1)
+        
         guess_button.click()
 
         # ปาร์คเห็นว่า Guessed Letters: จาก None กลายเป็น A และAttempts Left: เหลือ 5 
@@ -61,7 +61,7 @@ class HangmanGameTest(LiveServerTestCase):
         attempts_left = self.driver.find_element(By.CSS_SELECTOR, ".attempts").text
         self.assertEqual("Guessed Letters: A", guessed_letters)
         self.assertEqual("Attempts Left: 5", attempts_left)
-        time.sleep(1)
+        
 
         # รอจนกว่า input field สำหรับกรอกตัวอักษรจะพร้อมใช้งานอีกครั้ง
         input_field = WebDriverWait(self.driver, 10).until(
@@ -73,7 +73,7 @@ class HangmanGameTest(LiveServerTestCase):
         guess_button = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
-        time.sleep(1)          
+                  
         guess_button.click()
         word_display = self.driver.find_element(By.CLASS_NAME, 'word')
         guessed_letters = self.driver.find_element(By.ID, "guess").text
@@ -92,7 +92,7 @@ class HangmanGameTest(LiveServerTestCase):
         guess_button = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
-        time.sleep(0.5)
+        
         guess_button.click()
 
         # ปาร์คใส่ตัว D 
@@ -100,7 +100,7 @@ class HangmanGameTest(LiveServerTestCase):
             EC.element_to_be_clickable((By.NAME, "letter"))
         ) 
         input_field.send_keys("D")
-        time.sleep(0.5)
+        
         guess_button = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
@@ -109,7 +109,7 @@ class HangmanGameTest(LiveServerTestCase):
         # ปาร์คเห็นข้อความ 🎉 Congratulations! You won! 🎉
         message =  self.driver.find_element(By.CLASS_NAME,"message")
         self.assertEqual("🎉 Congratulations! You won! 🎉",message.text)
-        time.sleep(2)
+        
 
          # ทดสอบว่ามีปุ่ม Start New Game มั้ย
         start_button = self.driver.find_element(By.CSS_SELECTOR, "button#restart")
@@ -121,7 +121,7 @@ class HangmanGameTest(LiveServerTestCase):
 
         # ปาร์คกดปุ่ม Start New Game 
         start_button.click()
-        time.sleep(1)
+        
         # รอจนกว่าจะมี element ที่มี class word ปรากฏ ในที่นี้ก็คือ word_display 
         new_word = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'word'))
@@ -133,7 +133,7 @@ class HangmanGameTest(LiveServerTestCase):
         # ปาร์คสังเกตได้ว่ามีเส้นประ 2 ช่อง และคำใบ้เปลี่ยนไปเป็นคำว่า Hint: Referring to the speaker and others 
         self.assertEqual("Hint: "+expected_hint, hint)
         self.assertEqual(new_word.text,"_ _")
-        time.sleep(1)
+        
 
         # ปาร์คลองใส่ตัว A , B , C ปรากฏว่าไม่ถูกเลยทำให้ attempts_left เหลือ 3 
 
@@ -146,7 +146,7 @@ class HangmanGameTest(LiveServerTestCase):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
         guess_button.click()
-        time.sleep(0.5)   
+           
         # ------------------B--------------------
         input_field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.NAME, "letter"))
@@ -156,7 +156,7 @@ class HangmanGameTest(LiveServerTestCase):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
         guess_button.click()
-        time.sleep(0.5)   
+           
         # ------------------C--------------------
         input_field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.NAME, "letter"))
@@ -170,14 +170,14 @@ class HangmanGameTest(LiveServerTestCase):
 
         # เทสว่า attempts_left เหลือ 3 จริงป่าว 
         self.assertEqual(attempts_left ,"Attempts Left: 3")
-        time.sleep(1)   
+           
 
         # ปาร์คลองใส่ตัว A ปรากฏว่ามีการเเจ้งเตือนว่า 'You already guessed that letter!'
         input_field = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.NAME, "letter"))
         )
         input_field.send_keys("A")
-        time.sleep(0.5)
+        
 
         # ปาร์คกดปุ่ม Guess
         guess_button = WebDriverWait(self.driver, 10).until(
@@ -191,14 +191,14 @@ class HangmanGameTest(LiveServerTestCase):
 
         # ตรวจสอบว่าข้อความแจ้งเตือนถูกต้อง
         self.assertEqual(alert_message.text, "You already guessed that letter!")
-        time.sleep(2)
+        
         
         # ปาร์คลองใส่ "ก" ปรากฏว่ามีการแจ้งเตือนว่า 'Please enter a valid single letter!'
         input_field = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.NAME, "letter"))
         )
         input_field.send_keys("ก")
-        time.sleep(0.5)
+        
 
         # ปาร์คกดปุ่ม Guess
         guess_button = WebDriverWait(self.driver, 10).until(
@@ -210,12 +210,12 @@ class HangmanGameTest(LiveServerTestCase):
         EC.presence_of_element_located((By.NAME, "letter"))
         )
         input_field.clear()
-        time.sleep(1)
+        
 
         
         # ตรวจสอบว่าข้อความแจ้งเตือนถูกต้อง
         self.assertEqual(alert_message.get_attribute("title"), "Please enter a valid single English letter (A-Z)!")
-        time.sleep(1)
+        
         # ปาร์คลองใส่อักษรที่เหลือคือ D , Z , T ปรากฏว่าไม่ถูกเลยทำให้ attempts_left เหลือ 0 และขึ้นข้อความ "😢 Game Over! The word was: WE"
         
         #  ------------------D--------------------
@@ -227,7 +227,7 @@ class HangmanGameTest(LiveServerTestCase):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
         guess_button.click()
-        time.sleep(1)   
+           
         # ------------------Z--------------------
         input_field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.NAME, "letter"))
@@ -237,7 +237,7 @@ class HangmanGameTest(LiveServerTestCase):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
         )
         guess_button.click()
-        time.sleep(1)   
+           
         # ------------------T--------------------
         input_field = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.NAME, "letter"))
@@ -253,16 +253,16 @@ class HangmanGameTest(LiveServerTestCase):
 
         # เทสว่า attempts_left เหลือ 0 จริงป่าว 
         self.assertEqual(attempts_left ,"Attempts Left: 0")
-        time.sleep(1) 
+         
         # ปาร์คเห็นข้อความ "😢 Game Over! The word was: WE"
         message =  self.driver.find_element(By.CLASS_NAME,"message")
         self.assertEqual("😢 Game Over! The word was: WE",message.text)
-        time.sleep(2)
+        
         # ปาร์คเห็นปุ่มที่มีคำว่า Back to menu และกดปุ่ม ทำให้ปาร์คกลับมาอยู่ในหน้าเมนูและเห็นลิงค์ Hangman Game
         back = self.driver.find_element(By.CLASS_NAME,"back_to_menu")
         self.assertEqual(back.text,"Back to menu")
         back.click()
-        time.sleep(1)
+        
         hangman_link = self.driver.find_element(By.LINK_TEXT, "Hangman Game")
         self.assertIsNotNone(hangman_link) 
-        time.sleep(1)
+        

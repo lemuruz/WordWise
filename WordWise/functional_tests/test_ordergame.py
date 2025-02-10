@@ -18,12 +18,12 @@ class orderword_is_functional(StaticLiveServerTestCase):
     def test_orderword(self):
         # 1. -หลังจากที่ปาร์คได้ทดสอบความรู้แล้วปาร์คต้องการเรียนรู้ Grammar เพื่อสื่อสารดยการกดลิงค์ go to ordergame
         self.browser.get(self.live_server_url+"/ordergame/test")
-        time.sleep(2)
+        
         # Check if JavaScript is loaded
         is_js_loaded = self.browser.execute_script("return document.readyState") == "complete"
         self.assertTrue(is_js_loaded, "JavaScript did not fully load")
 
-        time.sleep(2)
+        
 
         # 2. มีคำแสดงขึ้นบนหน้าเว็บมีคำว่า violin, play, I และมีช่องว่างในส่วนด้านบน และมีปุ่มเขียนว่า OK มุมล่างขวา
         words = self.browser.find_element(By.ID, "word-line")

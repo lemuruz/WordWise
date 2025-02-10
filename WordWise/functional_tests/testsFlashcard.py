@@ -16,7 +16,6 @@ class NewVisitorTest(LiveServerTestCase):
 
         decks = flashCardDeck.objects.all()
         print("Available decks:", [deck.name for deck in decks])
-        self.browser = webdriver.Chrome()  # Use Firefox() if preferred
         Account.objects.create(username="best", password="1234")
 
     def tearDown(self):
@@ -69,9 +68,11 @@ class NewVisitorTest(LiveServerTestCase):
             rate_easy_button.click()
             time.sleep(0.5)  # หน่วงเวลาเล็กน้อย เพื่อให้สมจริงเหมือนผู้ใช้จริง
 
+        # ----ยกเลิก
         # 9. ปาร์คเห็นคะแนนรวมของเขาในหน้าผลลัพธ์
         # score_element = self.browser.find_element(By.ID, "userScore")
         # self.assertTrue("score : 12 / 12" in score_element.text)
+        #-----
 
         #9. ปาร์คพอใจกับคะแนนของเขา และเขาเห็นปุ่ม home เข้าจึงลองกดดู
         home_button = self.browser.find_element(By.ID, "homeBtn")
