@@ -36,7 +36,6 @@ def login(request):
             password = data.get("password")
 
             user = Account.objects.filter(username=username).first()
-            print(password,user.password)
             if user and (password == user.password):  # 🔹 Verify hashed password
                 request.session["username"] = user.username  # Store username in session
                 return JsonResponse({"message": "Login successful"})
@@ -50,7 +49,8 @@ def login(request):
 
 def logout(request):
     request.session.flush()  # Clear session
-    return redirect("/user/login/")  # Redirect to login page
+    # return redirect("/user/login/")  # Redirect to login page
+    return redirect()
 
 def get_user_info(request):
     username = request.session.get("username")
