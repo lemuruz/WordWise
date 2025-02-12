@@ -3,31 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flashcard/menustyle.css' %}">
     <title>Flashcard</title>
 </head>
 <body>
-    <button
-        id = "homeBtn"
-        onclick = "window.location.href='{% url 'menu:index' %}'">
-        Home
-    </button>
-    <h1>Choose Your Flashcard Deck</h1>
-    <ul>
-
-        {% if flashcarddeck %}
-        <ul>
-            {% for deck in flashcarddeck %}
-                <button 
-                    id="{{ deck.name }}"
-                    type="button"
-                    onclick="window.location.href='{% url 'flashcard:flashcardplay' deck.id %}'">
-                    {{ deck.name }}
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Recent</h2>
+            <div class="recent-flashcards">
+                <!-- Add recent flashcards here if you want to show them -->
+                <div class="recent-flashcard-item">Flashcard 1</div>
+                <div class="recent-flashcard-item">Flashcard 2</div>
+                <div class="recent-flashcard-item">Flashcard 3</div>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn import">
+                    <span>↓</span>
+                    Import
                 </button>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <p>You don't have any flashcards.</p>
-        {% endif %}
-    </ul>
+                <button class="action-btn create">
+                    <span>+</span>
+                    Create
+                </button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <button id="homeBtn" onclick="window.location.href='{% url 'menu:index' %}'">
+                Home
+            </button>
+            <!-- <h1>Choose Your Flashcard Deck</h1> -->
+            <h1>Your Flashcard</h1>
+            {% if flashcarddeck %}
+                <ul class = "flashcard-slidebar">
+                    {% for deck in flashcarddeck %}
+                        <button 
+                            id="{{ deck.name }}"
+                            type="button"
+                            onclick="window.location.href='{% url 'flashcard:flashcardplay' deck.id %}'">
+                            {{ deck.name }}
+                        </button>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You don't have any flashcards.</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
