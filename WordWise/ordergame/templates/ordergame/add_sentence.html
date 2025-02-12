@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add sentence</title>
+    <script>
+        const submit_url = "{% url 'ordergame:addSentence' %}"
+    </script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ordergame/addSentenceStyle.css' %}">
+    <script src="{% static 'ordergame/addSentenceScript.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <p id="popup-message">Thanks For Helping Us Add Create New Content</p>
+                <p id="popup-message">Do you want to submit more sentence?</p>
+                <div class="popup-buttons">
+                    <button id="popup-close">Yes</button>
+                    <form action="{% url 'menu:index' %}" method="get">
+                        <button class="popup-home" id="popup-home">HOME</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <h2>Help Us Add Sentence</h2>
+        <form id="sentenceForm" clsss="senform" onsubmit="submitSentence(event)">
+            {% csrf_token %}
+            <label for="data" class="data-submission-text">Enter Sentence: <p class="show-error" id="show-error">Submit Error</p></label>
+            <input type="text" id="data" name="data" required><br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

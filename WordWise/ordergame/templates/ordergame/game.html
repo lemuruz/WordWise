@@ -9,12 +9,19 @@
     </script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'ordergame/gamestyle.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="{% static 'ordergame/script.js' %}" defer></script>
 </head>
 <body>
-    <div class="header">
-        <p class="game-title">Order Word</p>
+    <div class="top-bar">
+        <div class="title-text">
+            <p class="game-title">Order Word</p>
+        </div>
+        <div class="bar-menu">
+            <a href="{% url 'ordergame:addSentence' %}">help us add more sentence</a>
+            <a href="{% url 'menu:index' %}">
+                <img class="home-icon" src="{% static 'ordergame/home_icon.svg' %}" alt="Home Icon">
+            </a>
+        </div>
     </div>
     <div class="container">
         <!-- Popup Modal -->
@@ -37,7 +44,7 @@
             <!-- Word Block Create by the script.js -->
         </div>
         <div class="button-container">
-            <button id="check-btn">OK</button>
+            <button id="check-btn" class="check-btn">OK</button>
         </div>
     </div>
 </body>

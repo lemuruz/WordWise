@@ -1,0 +1,169 @@
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('fonts/IBMPlexMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: linear-gradient(to right, #a896ff, #9bffa0, #f6ffaa, #ffc1ea);
+    background-size: 300% 300%;
+    animation: gradientBackground 300s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* Form container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    align-content: center;
+    justify-content: center;
+    width: 45%;
+    height: auto;
+}
+
+/* Form title */
+h2 {
+    display: block;
+    font-size: 24px;
+    margin: 0px;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.senform {
+    display: block;
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Submit button */
+button[type="submit"] {
+    float: right;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 10em;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Error message */
+.show-error {
+    color: red;
+    font-size: 14px;
+    display: none;
+    margin-top: 5px;
+}
+
+/* Popup styling */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup content */
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+}
+
+/* Popup message */
+#popup-message {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Popup buttons */
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Yes button */
+#popup-close {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#popup-close:hover {
+    background-color: #218838;
+}
+
+/* Home button */
+.popup-home {
+    background-color: #dc3545;
+    color: white;
+    font-size: 16px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-home:hover {
+    background-color: #c82333;
+}
