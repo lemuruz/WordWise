@@ -7,20 +7,27 @@
 </head>
 <body>
     <button
+        id = "homeBtn"
         onclick = "window.location.href='{% url 'menu:index' %}'">
-        Menu
+        Home
     </button>
     <h1>Choose Your Flashcard Deck</h1>
     <ul>
-        {% for deck in flashcarddeck %}
-            <!-- Use anchor tag or use button and set window.location.href correctly -->
-            <button 
-                id="{{ deck.name }}"
-                type="button"
-                onclick="window.location.href='{% url 'flashcard:flashcardplay' deck.id %}'">
-                {{ deck.name }}
-            </button>
-        {% endfor %}
+
+        {% if flashcarddeck %}
+        <ul>
+            {% for deck in flashcarddeck %}
+                <button 
+                    id="{{ deck.name }}"
+                    type="button"
+                    onclick="window.location.href='{% url 'flashcard:flashcardplay' deck.id %}'">
+                    {{ deck.name }}
+                </button>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>You don't have any flashcards.</p>
+        {% endif %}
     </ul>
 </body>
 </html>

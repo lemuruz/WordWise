@@ -1,11 +1,20 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.urls import reverse
 from .models import flashCardDeck
-import random
-# from django.http import HttpResponse
-# Create your views here.
+from user.models import Account
 
 def index(request):
-    deck = flashCardDeck.objects.all()
+    username = request.session.get("username")
+
+    if not username:
+        return redirect(reverse('user:login'))
+    
+    user = Account.objects.filter(username=username).first()
+
+    if not user:
+        return redirect(reverse('user:login'))
+    
+    deck = user.flashcard.all()
     return render(request,"flashcard/flashcardmenu.html",{'flashcarddeck':deck})
 
 def flashcardplay(request, deck_id):

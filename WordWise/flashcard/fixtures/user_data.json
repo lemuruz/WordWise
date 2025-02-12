@@ -1,0 +1,34 @@
+[
+{
+  "model": "user.account",
+  "pk": 6,
+  "fields": {
+    "username": "tata",
+    "password": "pbkdf2_sha256$870000$AS0rZ9TeTT7jvypBdBMYUl$6t2IXmyCj+QPsMBkyj8nweIkcPSW9kPVnZv9UtC8eXc=",
+    "flashcard": []
+  }
+},
+{
+  "model": "user.account",
+  "pk": 7,
+  "fields": {
+    "username": "best",
+    "password": "pbkdf2_sha256$870000$B4lPyVlEAs6GgNyvjE2cvO$xhOUpXzHVUI0YLygaoT4NK66yR6YyHzVMLiKIJHI/3g=",
+    "flashcard": [
+      1
+    ]
+  }
+},
+{
+  "model": "user.account",
+  "pk": 8,
+  "fields": {
+    "username": "park",
+    "password": "pbkdf2_sha256$870000$F1tqeUd30Es6vmqV0rGKXy$76pjL8U8irPoM+pfoPIf6r7EewpRFwlsR5TryelrLA8=",
+    "flashcard": [
+      2,
+      3
+    ]
+  }
+}
+]
