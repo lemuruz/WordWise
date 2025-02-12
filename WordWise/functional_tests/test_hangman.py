@@ -55,12 +55,14 @@ class HangmanGameTest(StaticLiveServerTestCase):
 
         guess_button.click()
 
-        # ปาร์คเห็นว่า Guessed Letters: จาก None กลายเป็น A และAttempts Left: เหลือ 5 
+        # ปาร์คเห็นว่า Guessed Letters: จาก None กลายเป็น A สีแดง และAttempts Left: เหลือ 5  รวมทั้งตัวอักษรใน 
         guessed_letters = self.driver.find_element(By.ID, "guess").text
         attempts_left = self.driver.find_element(By.CSS_SELECTOR, ".attempts").text
+        incorrect_letter_element = self.driver.find_element(By.XPATH, "//*[text()='A']")
+        color = incorrect_letter_element.value_of_css_property('color')
+        self.assertEqual(color, 'rgba(255, 0, 0, 1)')  # rgba(255, 0, 0, 1) คือสีแดง
         self.assertEqual("Guessed Letters: A", guessed_letters)
         self.assertEqual("Attempts Left: 5", attempts_left)
-
 
         # รอจนกว่า input field สำหรับกรอกตัวอักษรจะพร้อมใช้งานอีกครั้ง
         input_field = WebDriverWait(self.driver, 10).until(
@@ -113,7 +115,7 @@ class HangmanGameTest(StaticLiveServerTestCase):
 
         # เปลี่ยนคำใน database 
         wordBank.objects.all().delete() 
-        wordBank.objects.create(word="WE", meaning="Referring to the speaker and others")
+        wordBank.objects.create(word="YOLK", meaning="The yellow part of an egg, rich in nutrients")
 
         # ปาร์คกดปุ่ม Start New Game 
         start_button.click()
@@ -122,13 +124,13 @@ class HangmanGameTest(StaticLiveServerTestCase):
         new_word = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'word'))
         )
-        word_obj = wordBank.objects.get(word="WE")
+        word_obj = wordBank.objects.get(word="YOLK")
         expected_hint = word_obj.meaning
 
         hint = self.driver.find_element(By.CSS_SELECTOR, ".meaning").text
-        # ปาร์คสังเกตได้ว่ามีเส้นประ 2 ช่อง และคำใบ้เปลี่ยนไปเป็นคำว่า Hint: Referring to the speaker and others 
+        # ปาร์คสังเกตได้ว่ามีเส้นประ 4 ช่อง และคำใบ้เปลี่ยนไปเป็นคำว่า Hint: The yellow part of an egg, rich in nutrients
         self.assertEqual("Hint: "+expected_hint, hint)
-        self.assertEqual(new_word.text,"_ _")
+        self.assertEqual(new_word.text,"_ _ _ _")
 
 
         # ปาร์คลองใส่ตัว A , B , C ปรากฏว่าไม่ถูกเลยทำให้ attempts_left เหลือ 3 
@@ -242,12 +244,12 @@ class HangmanGameTest(StaticLiveServerTestCase):
             EC.presence_of_element_located((By.CSS_SELECTOR,".attempts"))
         ).text
 
-        # เทสว่า attempts_left เหลือ 0 จริงป่าว 
+        # เทสว่า attempts_left เหลือ 1 จริงป่าว 
         self.assertEqual(attempts_left ,"Attempts Left: 0")
  
         # ปาร์คเห็นข้อความ "😢 Game Over! The word was: WE"
         message =  self.driver.find_element(By.CLASS_NAME,"message")
-        self.assertEqual("😢 Game Over! The word was: WE",message.text)
+        self.assertEqual("😢 Game Over! The word was: YOLK",message.text)
         # ปาร์คเห็นปุ่มที่มีคำว่า Back to menu และกดปุ่ม ทำให้ปาร์คกลับมาอยู่ในหน้าเมนูและเห็นลิงค์ Hangman Game
         back = self.driver.find_element(By.CLASS_NAME,"back_to_menu")
         self.assertEqual(back.text,"Back to menu")
