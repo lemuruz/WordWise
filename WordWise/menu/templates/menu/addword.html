@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Word</title>
+</head>
+<body>
+    <h1>Add a New Word</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- ช่องกรอกคำ -->
+        <label for="word">Enter Word:</label>
+        <input type="text" id="word" name="word" required>
+    
+        <!-- ช่องเลือกชนิดของคำ -->
+        <label for="word_type">Select Word Type:</label>
+        <select id="word_type" name="word_type" required>
+            <option value="noun">Noun</option>
+            <option value="pronoun">Pronoun</option>
+            <option value="verb">Verb</option>
+            <option value="adjective">Adjective</option>
+            <option value="adverb">Adverb</option>
+            <option value="preposition">Preposition</option>
+            <option value="conjunction">Conjunction</option>
+            <option value="interjection">Interjection</option>
+            <option value="determiner">Determiner</option>
+            <option value="phrase">Phrase</option>
+            <option value="modal verb">Modal Verb</option>
+            <option value="article">Article</option>
+            <option value="quantifier">Quantifier</option>
+            <option value="exclamatory word">Exclamatory Word</option>
+            <option value="gerund">Gerund</option>
+            <option value="infinitive">Infinitive</option>
+            <option value="relative pronoun">Relative Pronoun</option>
+            <option value="relative adverb">Relative Adverb</option>
+            <option value="prepositional phrase">Prepositional Phrase</option>
+            <option value="conjunction adverb">Conjunction Adverb</option>
+            <option value="correlative conjunction">Correlative Conjunction</option>
+            <option value="conditional">Conditional</option>
+            <option value="subjunctive mood">Subjunctive Mood</option>
+            <option value="indefinite pronoun">Indefinite Pronoun</option>
+            <option value="causative verb">Causative Verb</option>
+            <option value="intensifier">Intensifier</option>
+        </select>
+    
+        <button type="submit">Add Word</button>  <!-- เมื่อกดปุ่มจะบันทึกคำ -->
+    </form>
+    
+    <a href="{% url 'menu:index' %}">Back to Menu</a>  <!-- ปุ่มกลับไปหน้าเมนู -->
+    
+</body>
+</html>

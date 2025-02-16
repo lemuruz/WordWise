@@ -113,6 +113,29 @@ main ul li a:hover {
     background-color: #ecf0f1;
     color: #3498db;
 }
+.add-word {
+    color: white;
+    background-color: #3498db; /* สีฟ้าสดใส */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.add-word:hover {
+    background-color: #2980b9; /* เปลี่ยนสีเมื่อโฮเวอร์ */
+    transform: scale(1.05);
+}
+
+.add-word:active {
+    background-color: #1c6691; /* กดแล้วสีเข้มขึ้น */
+    transform: scale(0.98);
+}
+
 
 /* Responsive design */
 @media (max-width: 768px) {

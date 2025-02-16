@@ -32,7 +32,7 @@
                 window.location.href = response.url;  // Follow the redirect
             } else {
                 window.location.reload();  // Fallback to reloading the page
-            }
+            }   
         }
 
 
@@ -60,6 +60,9 @@
             <li><a href="{% url 'hangman:hangman_game' %}">Hangman Game</a></li>
             <li><a href="{% url 'ordergame:game' %}">Order Game</a></li>
         </ul>
+        <a href="{% url 'menu:add_word' %}">
+            <button class="add-word">ADD WORD</button>
+        </a>
     <main>
         
     </main>
