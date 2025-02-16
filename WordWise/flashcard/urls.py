@@ -7,4 +7,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path('end/', views.flashcardend, name='flashcardend'),
     path('flashcard/play/<int:deck_id>/', views.flashcardplay, name="flashcardplay"),
+    path('createDeck/', views.createDeck ,name="createDeck"),
 ]

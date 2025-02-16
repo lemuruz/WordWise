@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flashcard/createPagestyle.css' %}">
+    <title>Create Flashcard</title>
+</head>
+<body>
+    
+    <head>
+        
+        <div style="position: absolute; top: 10px; left: 10px;">
+            <button
+                id = "homeBtn"
+                onclick = "window.location.href='{% url 'flashcard:index' %}'">
+                Flashcard
+            </button>
+            <span id="user-label">Not logged in</span>
+        </div>
+    </head>
+
+    <h1>Create Flashcard Deck</h1>
+
+    <form id="createDeckForm">
+        <input type="text" id="deckName" placeholder="Deck Name" required>
+        <label for="wordSearch">Search Words:</label>
+        
+        <input type="text" id="wordSearch" placeholder="Type to search...">
+        <button type="submit">Create Deck</button>
+        <h3>Selected Words:</h3>
+        <ul id="selectedWordsList"></ul>
+        <p>--------------------------------------</p>
+        <h3>All Words:</h3>
+        <ul id="wordList"></ul>
+
+
+    </form>
+
+    <script>
+        const words = {{ words|safe }};
+    </script>
+
+    <script src="{% static 'flashcard/createDeck.js' %}"></script>
+</body>
+</html>

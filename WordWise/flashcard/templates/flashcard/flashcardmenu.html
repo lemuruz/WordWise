@@ -22,7 +22,7 @@
                     <span>↓</span>
                     Import
                 </button>
-                <button class="action-btn create">
+                <button class="action-btn create" onclick = "window.location.href='{% url 'flashcard:createDeck' %}'">
                     <span>+</span>
                     Create
                 </button>
@@ -30,10 +30,14 @@
         </div>
         
         <div class="main-content">
-            <button id="homeBtn" onclick="window.location.href='{% url 'menu:index' %}'">
-                Home
-            </button>
-            <!-- <h1>Choose Your Flashcard Deck</h1> -->
+            <div class = "homeuser">
+                <p class="username">Account : {{user}}</p>
+                <button id="homeBtn" onclick="window.location.href='{% url 'menu:index' %}'">
+                    Home
+                </button>
+                
+            </div>
+            
             <h1>Your Flashcard</h1>
             {% if flashcarddeck %}
                 <ul class = "flashcard-slidebar">

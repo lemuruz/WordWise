@@ -177,15 +177,25 @@ button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+.homeuser {
+    margin-right: 5px;
+    margin-top: 10px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.username {
+    margin: 0;
+    color: #4b5563;
+    font-size: 0.9rem;
+    font-weight: 500;;
+}
 
 #homeBtn {
-    /* position: absolute; */
-    margin-top: -20px;
-    margin-right: -20px;
-    display: block;
-    float: right;
-    width: auto;
-    height: auto;
+    margin: 0;
     padding: 8px 20px;
     background-color: #3b82f6;
     color: white;
@@ -193,7 +203,8 @@ button:hover {
     border-radius: 6px;
     font-weight: 500;
     font-size: 0.9rem;
-    z-index: 10;
+    height: auto;
+    width: auto;
 }
 
 #homeBtn:hover {
@@ -214,7 +225,7 @@ p {
     color: #666;
     font-size: 1.1rem;
     grid-column: 1 / -1;
-    margin-top: 40px;
+    margin-top: 0px;
 }
 
 @media (max-width: 768px) {
