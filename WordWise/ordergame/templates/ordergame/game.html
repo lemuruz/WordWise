@@ -6,12 +6,15 @@
     <title>Word Order Game</title>
     <script>
         const sent_data = "{{ the_sentence|escapejs }}";
+        const username = "{{ request.session.username }}";
+        const addscurl = "{{ add_sc_url }}"
     </script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'ordergame/gamestyle.css' %}">
     <script src="{% static 'ordergame/script.js' %}" defer></script>
 </head>
 <body>
+    {% csrf_token %}
     <div class="top-bar">
         <div class="title-text">
             <p class="game-title">Order Word</p>

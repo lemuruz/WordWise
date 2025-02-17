@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function(){
     //Words Part
     let words = sent_data.match(/[\w'-]+|[.?]/g);
     words = shuffleWord(words);
+    let clicks = 0;
+    let finished = false;
 
     const wordLine = document.getElementById("word-line");
 
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function moveToSentence(text, element) {
         element.remove();
+        clicks += 1;
         const blankBlocks = document.getElementById("blank-blocks");
         const wordInSen = document.createElement("div");
         wordInSen.classList.add("word-block");
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //OK Button Part
     const check_button = document.getElementById("check-btn")
-    check_button.addEventListener('click', function(){
+    check_button.addEventListener('click', async function(){
         const usrSenElem = document.getElementById("blank-blocks").children;
         var finalSen = ""
         for(let word of usrSenElem){
@@ -89,8 +92,36 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         if(finalSen == sent_data.replace(/\s+/g, '')){
             showPopup(correctness=true);
+            const score = clicks/usrSenElem.length;
+            if(!finished && username){
+                try {
+                    scoredata = {
+                        gamescore : score
+                    }
+                    const response = await fetch(addscurl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": getCSRFToken()
+                        },
+                        body: JSON.stringify(scoredata)
+                    })
+                    const result = await response.json()
+                    console.log(result.success)
+                    finished = true;
+                } catch(error) {
+                    console.error("Error:", error);
+                }
+            }
         } else {
             showPopup(correctness=false);
         }
     });
 });
+
+function getCSRFToken() {
+    return document.cookie
+        .split("; ")
+        .find(row => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+}

@@ -14,8 +14,3 @@ class flashcardUserScore(models.Model):
     account = models.ManyToManyField(Account)
     score = models.FloatField()
     answerCount = models.IntegerField()
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['words', 'account'], name='unique')
-        ]
