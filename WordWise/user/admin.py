@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account
+from .models import Account,flashcardUserScore
 
 class UserManage(admin.ModelAdmin):
     filter_horizontal = ('flashcard',)  # Improves selection UI
@@ -7,3 +7,4 @@ class UserManage(admin.ModelAdmin):
 # Check if the model is already registered
 if not admin.site.is_registered(Account):
     admin.site.register(Account, UserManage)
+admin.site.register(flashcardUserScore)

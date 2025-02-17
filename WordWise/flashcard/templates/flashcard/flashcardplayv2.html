@@ -7,7 +7,6 @@
     <script>
         let i = 0;  // Declare the index variable
         let words = {{ flashcardwords|safe }};  // Pass the list directly from Django to JavaScript
-        let score = 0;
         // Function to update the displayed word
         function showWord() {
             if (words.length > 0) {
@@ -45,15 +44,28 @@
             showWord();
         }
 
-        function addscore(scoreValue){
-            score += scoreValue};
-
+        async function addscore(scoreValue){
+            const csrfToken = document.getElementById("csrf_token").value;
+            console.log("Sending:", words[i]);  // Check if words[i] exists
+            const response = await fetch("/flashcard/addUserScore/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+            },
+            body: JSON.stringify({word : words[i],score : scoreValue})
+        });
+        // const result = await response.json()
+        // console.log(result.message);
+        };
+        
         document.addEventListener("DOMContentLoaded", function() {
             showWord();  
         });
     </script>
 </head>
 <body>
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
     <button
         id = "flashcardMenuBtn"
         onclick = "window.location.href='{% url 'flashcard:index' %}'">

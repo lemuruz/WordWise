@@ -3,7 +3,7 @@ from django.urls import reverse
 from .models import flashCardDeck,wordBank
 import json
 from django.http import JsonResponse
-from user.models import Account
+from user.models import Account,flashcardUserScore
 
 def index(request):
     username = request.session.get("username")
@@ -60,3 +60,29 @@ def createDeck(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
     return render(request, "flashcard/flashcardcreate.html", {"words": list(words)})
+
+
+def addUserScore(request):
+    username = request.session.get("username")
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            word = data.get("word")
+            score = data.get("score")
+            temp = wordBank.objects.get(word=word["word"],word_type = word["word_type"])
+            user = Account.objects.get(username = username)
+            try:
+                user_score = flashcardUserScore.objects.get(words=temp,account=user)
+                user_score.score = ((user_score.score*user_score.answerCount) + score)/(user_score.answerCount + 1)
+                user_score.answerCount = user_score.answerCount + 1
+                user_score.save()
+            except:
+                user_score = flashcardUserScore.objects.create(score=score, answerCount=1)
+
+                user_score.words.set([temp])
+                user_score.account.set([user])
+
+                
+            return JsonResponse({"message": "add complete"}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
