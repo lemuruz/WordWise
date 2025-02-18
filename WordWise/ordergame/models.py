@@ -8,10 +8,14 @@ class sentences(models.Model):
     def __str__(self):
         return self.sentence
     
-class userScore(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+class orderUserScore(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)  # Link to a single user
+    sentence = models.ForeignKey(sentences, on_delete=models.CASCADE)  # Link to a single sentence
     score = models.FloatField()
     times = models.IntegerField()
 
+    class Meta:
+        unique_together = ('user', 'sentence')  # Enforce unique combination of user and sentence
+
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.sentence.sentence}"

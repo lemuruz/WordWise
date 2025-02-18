@@ -96,7 +96,8 @@ document.addEventListener("DOMContentLoaded", function(){
             if(!finished && username){
                 try {
                     scoredata = {
-                        gamescore : score
+                        gamescore : score,
+                        sentence : sent_data
                     }
                     const response = await fetch(addscurl, {
                         method: "POST",

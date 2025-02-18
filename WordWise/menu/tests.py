@@ -50,7 +50,7 @@ class WordBankTests(TestCase):
         # ข้อมูลที่กรอกคำแต่ไม่กรอกประเภทคำ
         data = {
             'word': 'example',
-            'word_type': ''
+            'word_type': 'dsjkfj'
         }
 
         # ส่งคำร้อง POST ไปยังฟอร์ม
