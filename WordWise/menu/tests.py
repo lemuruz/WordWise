@@ -49,6 +49,24 @@ class WordBankTests(TestCase):
         self.assertFalse(wordBank.objects.filter(word='', word_type='').exists())
 
 
+<<<<<<< HEAD
+=======
+        # ข้อมูลที่กรอกคำแต่ไม่กรอกประเภทคำ
+        data = {
+            'word': 'example',
+            'word_type': 'dsjkfj'
+        }
+
+        # ส่งคำร้อง POST ไปยังฟอร์ม
+        response = self.client.post(url, data)
+
+        # ควรแสดงฟอร์มให้กรอกใหม่หรือส่งกลับไปหน้าเดิม
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'menu/addword.html')  # แก้ไข
+
+        # ตรวจสอบว่าไม่มีคำในฐานข้อมูล
+        self.assertFalse(wordBank.objects.filter(word='example', word_type='').exists())
+>>>>>>> aecaeb1a8fba476464d95972edb1f18ace5255dd
 
     def test_add_word_duplicate(self):
         # URL สำหรับฟอร์มเพิ่มคำ

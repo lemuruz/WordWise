@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-from .models import sentences, userScore, Account
+from .models import sentences, Account, orderUserScore
 import json
 # Create your views here.
 
@@ -23,13 +23,14 @@ def add_sentence(request):
 def add_score(request):
     if request.method == 'POST':
         score = json.loads(request.body).get('gamescore')
+        sentence = sentences.objects.get(sentence=json.loads(request.body).get('sentence'))
         username = request.session.get("username")
         account = Account.objects.get(username=username)
-        scoreboard = userScore.objects.filter(user=account).first()
+        scoreboard = orderUserScore.objects.filter(user=account, sentence=sentence).first()
         if scoreboard:
             scoreboard.score = ((scoreboard.score*scoreboard.times) + score) / (scoreboard.times + 1)
             scoreboard.times += 1
             scoreboard.save()
         else:
-            scoreboard = userScore.objects.create(user=account, score=score, times=1)
+            scoreboard = orderUserScore.objects.create(user=account, sentence=sentence, score=score, times=1)
         return JsonResponse({"success": True})

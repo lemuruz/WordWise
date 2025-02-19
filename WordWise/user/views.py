@@ -1,6 +1,6 @@
 import hashlib
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from .models import Account
@@ -61,3 +61,12 @@ def get_user_info(request):
     if username:
         return JsonResponse({"username": username})
     return JsonResponse({"error": "Not logged in"}, status=400)
+
+def user_page(request, usrnm):
+    username = request.session.get("username")
+    if username is None:
+        return HttpResponse("Error getting session user")
+    elif username == usrnm:
+        return render(request, 'user/userpage.html', {"username" :username})
+    else:
+        return HttpResponse("Link not match session master")

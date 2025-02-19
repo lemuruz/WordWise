@@ -8,7 +8,7 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     color: #333;
 }
 
@@ -17,7 +17,9 @@ header {
     color: white;
     padding: 2rem;
     text-align: center;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it's always on top */
 }
 
 header h1 {
@@ -48,6 +50,9 @@ header h1 {
 nav {
     background-color: #34495e;
     padding: 1rem;
+    position: sticky;
+    top: 60px; /* Ensuring it's below the header */
+    z-index: 999; /* Ensure it's above other content but below the header */
 }
 
 nav ul {
@@ -115,7 +120,7 @@ main ul li a:hover {
 }
 .add-word {
     color: white;
-    background-color: #3498db; /* สีฟ้าสดใส */
+    background-color: #3498db; /* สดใสฟ้า */
     border: none;
     padding: 10px 20px;
     font-size: 16px;
@@ -127,12 +132,12 @@ main ul li a:hover {
 }
 
 .add-word:hover {
-    background-color: #2980b9; /* เปลี่ยนสีเมื่อโฮเวอร์ */
+    background-color: #2980b9;
     transform: scale(1.05);
 }
 
 .add-word:active {
-    background-color: #1c6691; /* กดแล้วสีเข้มขึ้น */
+    background-color: #1c6691;
     transform: scale(0.98);
 }
 
@@ -159,4 +164,68 @@ main ul li a:hover {
     main ul {
         grid-template-columns: 1fr;
     }
+}
+
+/* Container for the cards */
+.menucontainer {
+    display: flex;
+    justify-content: center;
+    gap: 17px;
+    flex-wrap: wrap;
+    margin-top: 5%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 30px; /* Space at the bottom */
+}
+  
+/* Each card */
+.game-icon-img {
+    width: 20%; /* Default width */
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    transition: width 0.5s ease, transform 0.5s ease;
+    aspect-ratio: 1 / 1.3; /* Adjust for more height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+/* Ensure the image fills its container */
+.game-icon-img img {
+    width: 100%;
+    height: auto; /* Adjust to fill both the width and height */
+    object-fit: cover;
+    display: block;
+}
+  
+/* Overlay text hidden by default */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+  
+/* Reveal overlay on hover */
+.game-icon-img:hover .overlay {
+    opacity: 1;
+}
+  
+/* When a card is hovered, expand it equally */
+.game-icon-img:hover {
+    width: 25%;
+    transform: scale(1.1); /* Slight scale up to visually expand */
+}
+  
+/* Shrink other cards when one is hovered */
+.menucontainer:has(.game-icon-img:hover) .game-icon-img:not(:hover) {
+    width: 15%;
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
+    
     <script>
         async function checkUser() {
             try {
@@ -55,11 +56,20 @@
             <li><a href="{% url 'user:login' %}" id="login-btn">Login</a></li>
         </ul>
     </nav>
-        <ul>
-            <li><a href="{% url 'flashcard:index' %}">Flashcard Game</a></li>
-            <li><a href="{% url 'hangman:hangman_game' %}">Hangman Game</a></li>
-            <li><a href="{% url 'ordergame:game' %}">Order Game</a></li>
-        </ul>
+        <div class="menucontainer">
+            <a href="{% url 'flashcard:index' %}" class="game-icon-img">
+            <img src="{% static 'menu/images/flashcard.png' %}" alt="Flashcard">
+            <div class="overlay">flashcard</div>
+            </a>
+            <a href="{% url 'hangman:hangman_game' %}" class="game-icon-img">
+            <img src="{% static 'menu/images/Hang_man.png' %}" alt="Hangman">
+            <div class="overlay">hangman</div>
+            </a>
+            <a href="{% url 'ordergame:game' %}" class="game-icon-img">
+            <img src="{% static 'menu/images/order.png' %}" alt="Ordergame">
+            <div class="overlay">ordergame</div>
+            </a>
+        </div>      
         <a href="{% url 'menu:add_word' %}">
             <button class="add-word">ADD WORD</button>
         </a>
