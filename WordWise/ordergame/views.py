@@ -2,11 +2,24 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .models import sentences, Account, orderUserScore
+from random import random, choice
+from django.db.models import F
 import json
 # Create your views here.
 
+def get_random_sentence(master):
+    user = Account.objects.filter(username=master).first()
+    if random() < 0.2 and user:
+        try:
+            sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+            return choice(sen).sentence.sentence
+        except IndexError:
+            pass
+    return sentences.objects.order_by('?').first().sentence
+
 def game(request):
-    random_sentence = sentences.objects.order_by('?').first().sentence
+    master = request.session.get("username")
+    random_sentence = get_random_sentence(master)
     addscoreurl = reverse("ordergame:addscore")
     return render(request, 'ordergame/game.html', {'the_sentence': random_sentence, 'add_sc_url': addscoreurl})
 
