@@ -45,8 +45,13 @@
             <option value="causative verb">Causative Verb</option>
             <option value="intensifier">Intensifier</option>
         </select>
+        <label for="word_mean">Enter Meaning:</label>
+        <input type="text" id="word_mean" name="word_mean" required>
+        <label for="word_clue">Enter Clue:</label>
+        <input type="text" id="word_clue" name="word_clue" required>
+
     
-        <button type="submit">Add Word</button>  <!-- เมื่อกดปุ่มจะบันทึกคำ -->
+        <button type="submit" class="submit">Add Word</button>  <!-- เมื่อกดปุ่มจะบันทึกคำ -->
     </form>
     
     <a href="{% url 'menu:index' %}">Back to Menu</a>  <!-- ปุ่มกลับไปหน้าเมนู -->

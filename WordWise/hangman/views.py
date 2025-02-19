@@ -1,8 +1,13 @@
 # views.py
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from wordbank.models import wordBank
+from user.models import Account
+from hangman.models import fail_count
+import json
+
 
 import random
 def index(request):
@@ -10,24 +15,31 @@ def index(request):
 def get_new_word():
     try:
         # Get both word and meaning
-        word_objects = list(wordBank.objects.values('word', 'meaning'))
+        word_objects = list(wordBank.objects.values('word', 'meaning','word_type','translates'))
         if not word_objects:
-            return {"word": "HANGMAN", "meaning": "A guessing game"}
+            return wordBank(word = "HANGMAN", meaning = "A guessing game" , word_type = "noun" , translates = "เกมแฮงแมน")
+            # return {"word": "HANGMAN", "meaning": "A guessing game"}
+            pass
         
         word_object = random.choice(word_objects)
-        return {
-            "word": word_object['word'].upper(),
-            "meaning": word_object['meaning']
-        }
+        print(word_object)
+        return  word_object
+            # "word": word_object['word'].upper(),
+            # "meaning": word_object['meaning'],
+            # "type" : word_object['word_type']
+        
     except Exception as e:
         print(f"Error getting word from database: {e}")
-        return {"word": "HANGMAN", "meaning": "A guessing game"}
+        return wordBank(word = "HANGMAN", meaning = "A guessing game" , word_type = "noun" , translates = "เกมแฮงแมน")
 
 def initialize_session(request):
     """Initialize or reset game session data"""
     word_data = get_new_word()
-    request.session['word'] = word_data['word']
-    request.session['meaning'] = word_data['meaning']
+    print(word_data)
+    request.session['word'] = word_data["word"].upper()
+    request.session['meaning'] = word_data["meaning"]
+    request.session['word_type'] = word_data["word_type"]
+    request.session['translates'] = word_data["translates"]
     request.session['guessed_letters'] = []
     request.session['attempts_left'] = 6
     request.session.modified = True
@@ -38,10 +50,12 @@ def hangman_game(request):
         initialize_session(request)
     
     word = request.session.get('word', '')
+    print(type(word))
+    word_type = request.session.get("word_type","")
     meaning = request.session.get('meaning', '')
     guessed_letters = request.session.get('guessed_letters', [])
     attempts_left = request.session.get('attempts_left', 6)
-    
+    player_name = request.session.get('username')    
     # แยกตัวอักษรที่ถูกต้องและผิดออกจากกัน
     correct_letters = [letter for letter in guessed_letters if letter in word]
     incorrect_letters = [letter for letter in guessed_letters if letter not in word]
@@ -60,7 +74,9 @@ def hangman_game(request):
         'attempts_left': attempts_left,
         'game_won': game_won,
         'game_over': game_over,
-        'word': word if game_over else None
+        'word': word ,
+        'word_type' : word_type,
+        'player_name': player_name
     }
     
     return render(request, 'hangman/game.html', context)
@@ -92,8 +108,38 @@ def guess_letter(request):
     
     return redirect('hangman:hangman_game')
 
-@require_http_methods(["POST"])
 def reset_game(request):
     initialize_session(request)
     messages.info(request, 'New game started!')
     return redirect('hangman:hangman_game')
+
+def save_fail_count(request):
+    if request.method == 'POST':
+        # รับข้อมูลจาก body request
+        data = json.loads(request.body)
+        username = data.get('username')
+        # word = ''.join(data.get('word').split(" ")).lower()
+        word = data.get('word').lower()
+        word_type = data.get("word_type")
+        print(word)
+        fails = data.get('fails')
+        
+        try:
+            user = Account.objects.get(username=username)
+            word_obj = wordBank.objects.get(word=word,word_type = word_type)
+            
+            
+            # เก็บข้อมูลในตาราง fail_count
+            fail_entry, created = fail_count.objects.update_or_create(
+                username=user,
+                word=word_obj,
+                defaults={'fails': fails}
+
+            )
+            
+            return JsonResponse({'status': 'success', 'message': 'Data saved successfully.'})
+        except Account.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Account not found.'}, status=404)
+        except wordBank.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Word not found.'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
