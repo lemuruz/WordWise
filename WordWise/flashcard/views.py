@@ -1,9 +1,10 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.urls import reverse
 from .models import flashCardDeck,wordBank
-import json
+import json,random
 from django.http import JsonResponse
 from user.models import Account,flashcardUserScore
+from django.db.models import Avg, Count
 
 def index(request):
     username = request.session.get("username")
@@ -20,18 +21,61 @@ def index(request):
                                                             'user' : user})
 
 def flashcardplay(request, deck_id):
-    deck = get_object_or_404(flashCardDeck, id=deck_id)
-    words = list(deck.words.all().values('word', 'translates', 'word_type'))
-    return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck.name,
+    deck_temp = get_object_or_404(flashCardDeck, id=deck_id)
+
+    word_count = deck_temp.words.count()
+
+    if word_count > 20:
+        selected_words = getflashcardselection(request, deck_id)
+        # print('janfkjasfkjandajdnasjl',selected_words)
+        words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words])
+        
+    else:
+        words_queryset = deck_temp.words.all()
+
+
+    # print('>used>',words_queryset)
+    words = list(words_queryset.values('word', 'translates', 'word_type'))
+    # print('uselist',len(words))
+    return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck_temp.name,
                                                            'flashcardwords': words})
 
+def getflashcardselection(request,deck_id):
+    username = request.session.get("username")
+    user = Account.objects.get(username = username)
+    deck = get_object_or_404(flashCardDeck, id=deck_id)
+    all_words = deck.words.all()
+    # print('allw',all_words)
+    low_score_word = flashcardUserScore.objects.filter(account=user).order_by("score")[:7]
+
+    low_score_word_texts = []
+    for entry in low_score_word:
+        low_score_word_texts.extend(entry.words.values_list("word", flat=True))  # Extract actual word texts
+
+    low_score_word_texts = list(set(low_score_word_texts))
+
+    low_score_words = wordBank.objects.filter(word__in=low_score_word_texts)
+
+    used_words = flashcardUserScore.objects.filter(account=user).values_list("words", flat=True)
+    new_words = list(all_words.exclude(id__in=used_words))[:7]
+    
+    remaining_slots = 20 - (len(new_words) + len(low_score_words))
+    available_words = list(all_words.exclude(id__in=[w.id for w in new_words + list(low_score_words)]))
+    random_words = random.sample(available_words, min(remaining_slots, len(available_words)))
+
+    selected_words = list(new_words) + list(low_score_words) + list(random_words)
+    random.shuffle(selected_words)
+    # print('>all>',selected_words)
+    # print('>new>',new_words)
+    # print('>low>',low_score_words)
+    # # print('sort low',low_score_word_texts)
+    # print('>ran>',random_words)
+    return  selected_words[:20] 
+
+
+
 def flashcardend(request):
-    score = request.GET.get('score',0)
-    flashcard_length = request.GET.get('flashcardlength',0)
-    return render(request,"flashcard/flashcardend.html",{
-        'score' : score,
-        'maxscore' : int(flashcard_length)*3,
-    })
+    return render(request,"flashcard/flashcardend.html")
 
 def createDeck(request):
     words = wordBank.objects.all().values("id", "word", "word_type")  # Fetch words

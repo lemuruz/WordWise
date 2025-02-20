@@ -14,3 +14,6 @@ class flashcardUserScore(models.Model):
     account = models.ManyToManyField(Account)
     score = models.FloatField()
     answerCount = models.IntegerField()
+
+    def __str__(self):
+        return str(self.account.first()) + ' - ' +  str(self.words.first())

@@ -37,9 +37,10 @@
 
         function next_word() {
             if (i < words.length - 1) {
+                console.log(i)
                 i += 1;  
             } else {
-                window.location.href = "{% url 'flashcard:flashcardend' %}?score=" + score + "&flashcardlength=" + words.length;
+                window.location.href = "{% url 'flashcard:flashcardend' %}"
             }
             showWord();
         }

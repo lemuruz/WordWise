@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+import time,random
 
 class MultiUserFlashcardTest(StaticLiveServerTestCase):
     fixtures = ['flashcard/fixtures/flashcard_data.json',
@@ -110,7 +110,7 @@ class MultiUserFlashcardTest(StaticLiveServerTestCase):
 
         while True:
             # Make sure the word and answer appear correctly
-            WebDriverWait(self.browser, 10).until(
+            WebDriverWait(self.browser, 5).until(
                 EC.presence_of_element_located((By.ID, "wordDisplay"))
             )
             word_display = self.browser.find_element(By.ID, "wordDisplay")
@@ -118,7 +118,7 @@ class MultiUserFlashcardTest(StaticLiveServerTestCase):
             self.assertTrue(word_display.is_displayed())
 
             # Click to show the answer
-            showAnswerBtn = WebDriverWait(self.browser, 10).until(
+            showAnswerBtn = WebDriverWait(self.browser, 5).until(
                 EC.element_to_be_clickable((By.ID, "showAnswer"))
             )
             showAnswerBtn.click()
@@ -133,3 +133,115 @@ class MultiUserFlashcardTest(StaticLiveServerTestCase):
                 # best เห็น text "Congratulations! You Have Finish this Flashcard"
                 break
 
+
+
+class FlashcardSelectionTest(StaticLiveServerTestCase):
+    fixtures = ['flashcard/fixtures/flashcard_data.json',
+                'flashcard/fixtures/user_data.json',
+                'flashcard/fixtures/word_data.json',]
+
+    def setUp(self):
+        self.browser = webdriver.Chrome()
+
+    def tearDown(self):
+        self.browser.quit()
+
+    def test_flashcard_word_selection_and_scoring(self):
+        # เบสล็อกอินเข้าสู่ระบบ
+        self.browser.get(self.live_server_url + "/user/login/")
+        username_input = self.browser.find_element(By.ID, "username")
+        password_input = self.browser.find_element(By.ID, "password")
+        submit_button = self.browser.find_element(By.ID, "submitLoginBtn")
+
+        username_input.send_keys("park")
+        password_input.send_keys("1234")
+        submit_button.click()
+
+        WebDriverWait(self.browser, 5).until(EC.alert_is_present())
+        alert = self.browser.switch_to.alert
+        self.assertEqual(alert.text, "Login successful!")
+        alert.accept()
+
+        # เบสเข้าไปที่หน้าแฟลชการ์ด
+        self.browser.get(self.live_server_url + "/flashcard/")
+        
+        # เบสเห็นแฟลชการ์ดชุด TOIC และกดเข้าไป
+        WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.ID, "TOIC"))
+        )
+        toic_card = self.browser.find_element(By.ID, "TOIC")
+        self.assertTrue(toic_card.is_displayed())
+        toic_card.click()
+
+        # เบสเห็นคำแรกที่ยังไม่เคยเล่น
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "wordDisplay"))
+        )
+        word_display = self.browser.find_element(By.ID, "wordDisplay")
+        first_word = word_display.text
+        self.assertTrue(word_display.is_displayed())
+
+        # เบสกดดูคำแปล
+        showAnswerBtn = self.browser.find_element(By.ID, "showAnswer")
+        showAnswerBtn.click()
+        answer = self.browser.find_element(By.ID, "answer")
+        self.assertTrue(answer.is_displayed())
+
+        # เบสกด hard เพราะจำคำศัพท์ไม่ได้
+        hardBtn = self.browser.find_element(By.ID, "hardBtn")
+        hardBtn.click()
+
+        # เบสเล่นต่อไปอีก 5 คำ
+        for _ in range(5):
+            WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.ID, "wordDisplay"))
+            )
+            # เบสกดดูคำแปล
+            showAnswerBtn = WebDriverWait(self.browser, 10).until(
+                EC.element_to_be_clickable((By.ID, "showAnswer"))
+            )
+            showAnswerBtn.click()
+
+            # เบสสุ่มกดปุ่มความยาก
+            buttons = ['easyBtn', 'mediumBtn', 'hardBtn']
+            selected_button = self.browser.find_element(By.ID, random.choice(buttons))
+            selected_button.click()
+            time.sleep(1)
+
+        # เบสออกจากการเล่นแฟลชการ์ด
+        self.browser.get(self.live_server_url + "/flashcard/")
+        
+        # เบสเข้าเล่นแฟลชการ์ดชุด TOIC อีกครั้ง
+        WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.ID, "TOIC"))
+        )
+        toic_card = self.browser.find_element(By.ID, "TOIC")
+        toic_card.click()
+
+        # เบสควรเห็นคำที่เคยตอบ hard อยู่ในชุดคำศัพท์ด้วย
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "wordDisplay"))
+        )
+        
+        # เบสเล่นจนจบชุดคำศัพท์
+        while True:
+            word_display = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.ID, "wordDisplay"))
+            )
+            
+            showAnswerBtn = WebDriverWait(self.browser, 10).until(
+                EC.element_to_be_clickable((By.ID, "showAnswer"))
+            )
+            showAnswerBtn.click()
+
+            easyBtn = self.browser.find_element(By.ID, "easyBtn")
+            easyBtn.click()
+            time.sleep(1)
+
+            try:
+                success_message = self.browser.find_element(By.ID, "Congratulationstext")
+                if success_message.is_displayed():
+                    self.assertEqual(success_message.text, "Congratulations! You Have Finish this Flashcard")
+                    break
+            except:
+                continue
