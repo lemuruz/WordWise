@@ -47,15 +47,10 @@
         <div style="position: absolute; top: 10px; left: 10px;">
             <span id="user-label">Not logged in</span>
             <button id="logout-btn" onclick="logoutUser()" style="display: none;">Logout</button>
+            <a href="{% url 'user:login' %}"><button id="login-btn">Login</button></a>
         </div>
         <h1>Word Wise</h1>
     </header>
-
-    <nav>
-        <ul>
-            <li><a href="{% url 'user:login' %}" id="login-btn">Login</a></li>
-        </ul>
-    </nav>
         <div class="menucontainer">
             <a href="{% url 'flashcard:index' %}" class="game-icon-img">
             <img src="{% static 'menu/images/flashcard.png' %}" alt="Flashcard">
