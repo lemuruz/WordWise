@@ -47,8 +47,11 @@
         <div style="position: absolute; top: 10px; left: 10px;">
             <span id="user-label">Not logged in</span>
             <button id="logout-btn" onclick="logoutUser()" style="display: none;">Logout</button>
-            <a href="{% url 'user:login' %}"><button id="login-btn">Login</button></a>
+            <a href="{% url 'user:login' %}" class="login-container"><div id="login-btn" class="login-btn">Login</div></a>
         </div>
+        <a href="{% url 'menu:add_word' %}" class="add-word-container">
+            <button class="add-word">ADD WORD</button>
+        </a>
         <h1>Word Wise</h1>
     </header>
         <div class="menucontainer">
@@ -64,10 +67,7 @@
             <img src="{% static 'menu/images/order.png' %}" alt="Ordergame">
             <div class="overlay">ordergame</div>
             </a>
-        </div>      
-        <a href="{% url 'menu:add_word' %}">
-            <button class="add-word">ADD WORD</button>
-        </a>
+        </div>
     <main>
         
     </main>
