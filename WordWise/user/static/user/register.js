@@ -68,4 +68,26 @@ async function logoutUser() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    let passwordField = document.getElementById("password");
+    let submit_btn = document.getElementById("submit-btn");
+    let pass_warn_len = document.getElementById("password-char-text");
+    let pass_warn_upc = document.getElementById("password-upc-char");
+    let pass_warn_sp = document.getElementById("password-sp-char");
+
+    passwordField.addEventListener("input", () => {
+        let pass = passwordField.value;
+
+        let length_pass = pass.length >= 8;
+        let upc_pass = /[A-Z]/.test(pass);
+        let spc_pass = /[0-9]/.test(pass) && /[^a-zA-Z0-9]/.test(pass);
+
+        pass_warn_len.textContent = length_pass ? "PASS" : "FAIL";
+        pass_warn_upc.textContent = upc_pass ? "PASS" : "FAIL";
+        pass_warn_sp.textContent = spc_pass ? "PASS" : "FAIL";
+
+        submit_btn.disabled = !(length_pass && upc_pass && spc_pass);
+    });
+});
+
 window.onload = checkUser;

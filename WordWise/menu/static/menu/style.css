@@ -43,8 +43,32 @@ header h1 {
     transition: background-color 0.3s;
 }
 
-#logout-btn:hover {
-    background-color: #c0392b;
+.login-container {
+    display: block;
+    margin-left: 1rem;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-btn {
+    background-color: #dfdfdf;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    display: inline-block;
+}
+
+.login-btn:hover {
+    background-color: #b3b3b3;
+}
+
+.add-word-container {
+    position:absolute;
+    top: 1em;
+    right: 2em;
 }
 
 nav {
