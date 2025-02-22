@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-1z@3_(ptlwhlu%uj@3t!34$2@scx!rq8a!2=envigiy*j2!cwh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wordwise-6em5.onrender.com','127.0.0.1','0.0.0.0']
 
 
 # Application definition
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'WordWise.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.getenv('DATABASE_PATH', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -132,3 +132,8 @@ SESSION_COOKIE_HTTPONLY = True  # Prevent JS from accessing cookies
 SESSION_COOKIE_SECURE = False  # Change to True if using HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session even if browser closes
 SESSION_COOKIE_SAMESITE = "Lax"  # Ensure cookies work across pages
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://wordwise-6em5.onrender.com',  # Add your Render domain here
+    # Add any other trusted domains if needed
+]
