@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time,random
 
+
 class MultiUserFlashcardTest(StaticLiveServerTestCase):
     fixtures = ['flashcard/fixtures/flashcard_data.json',
                 'flashcard/fixtures/user_data.json',
@@ -109,7 +110,6 @@ class MultiUserFlashcardTest(StaticLiveServerTestCase):
         easyBtn.click()
 
         while True:
-            # Make sure the word and answer appear correctly
             WebDriverWait(self.browser, 5).until(
                 EC.presence_of_element_located((By.ID, "wordDisplay"))
             )
@@ -206,7 +206,7 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
             buttons = ['easyBtn', 'mediumBtn', 'hardBtn']
             selected_button = self.browser.find_element(By.ID, random.choice(buttons))
             selected_button.click()
-            time.sleep(1)
+            time.sleep(0.5)
 
         # เบสออกจากการเล่นแฟลชการ์ด
         self.browser.get(self.live_server_url + "/flashcard/")
@@ -245,3 +245,6 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
                     break
             except:
                 continue
+
+
+

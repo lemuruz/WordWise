@@ -66,8 +66,8 @@ def getflashcardselection(request,deck_id):
     selected_words = list(new_words) + list(low_score_words) + list(random_words)
     random.shuffle(selected_words)
     # print('>all>',selected_words)
-    # print('>new>',new_words)
-    # print('>low>',low_score_words)
+    # print('>new>',len(new_words),new_words)
+    # print('>low>',len(low_score_words),low_score_words)
     # # print('sort low',low_score_word_texts)
     # print('>ran>',random_words)
     return  selected_words[:20] 
