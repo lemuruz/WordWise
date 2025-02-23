@@ -7,34 +7,44 @@ from wordbank.models import wordBank
 from user.models import Account
 from hangman.models import fail_count
 import json
-
+from django.db.models import Count
 
 import random
 def index(request):
     return render(request,"hangman/index.html");
-def get_new_word():
+def get_new_word(username):
     try:
-        # Get both word and meaning
-        word_objects = list(wordBank.objects.values('word', 'meaning','word_type','translates'))
-        if not word_objects:
-            return wordBank(word = "HANGMAN", meaning = "A guessing game" , word_type = "noun" , translates = "เกมแฮงแมน")
-            # return {"word": "HANGMAN", "meaning": "A guessing game"}
-            pass
+        # ดึงข้อมูลคำที่มีการทายผิดบ่อยจากฐานข้อมูล
         
-        word_object = random.choice(word_objects)
-        print(word_object)
-        return  word_object
-            # "word": word_object['word'].upper(),
-            # "meaning": word_object['meaning'],
-            # "type" : word_object['word_type']
-        
+        user = Account.objects.get(username = username)
+        difficult_words = fail_count.objects.filter(username = user).values('word__word', 'fails').order_by('-fails')
+
+        if difficult_words:
+            # มีคำที่ทายผิดบ่อย จะคำนวณอัตราการสุ่ม
+            if random.random() < 0.7:  # 70% เลือกคำที่ทายผิดบ่อย
+                word_id = difficult_words[0]['word__word']
+                word_obj = wordBank.objects.filter(word=word_id).values('word', 'meaning', 'word_type', 'translates').first()
+                return word_obj
+            else:
+                # 30% เลือกคำปกติจาก wordBank
+                word_objects = list(wordBank.objects.values('word', 'meaning', 'word_type', 'translates'))
+                word_object = random.choice(word_objects)
+                return word_object
+        else:
+            # ถ้าไม่มีคำที่ทายผิดบ่อย จะสุ่มคำปกติ
+            word_objects = list(wordBank.objects.values('word', 'meaning', 'word_type', 'translates'))
+            word_object = random.choice(word_objects)
+            return word_object
     except Exception as e:
         print(f"Error getting word from database: {e}")
-        return wordBank(word = "HANGMAN", meaning = "A guessing game" , word_type = "noun" , translates = "เกมแฮงแมน")
-
+        # ถ้าเกิดข้อผิดพลาดจะสุ่มคำปกติ
+        word_objects = list(wordBank.objects.values('word', 'meaning', 'word_type', 'translates'))
+        word_object = random.choice(word_objects)
+        return word_object
 def initialize_session(request):
     """Initialize or reset game session data"""
-    word_data = get_new_word()
+    username = request.session.get("username")
+    word_data = get_new_word(username)
     print(word_data)
     request.session['word'] = word_data["word"].upper()
     request.session['meaning'] = word_data["meaning"]
@@ -50,7 +60,6 @@ def hangman_game(request):
         initialize_session(request)
     
     word = request.session.get('word', '')
-    print(type(word))
     word_type = request.session.get("word_type","")
     meaning = request.session.get('meaning', '')
     guessed_letters = request.session.get('guessed_letters', [])
@@ -127,7 +136,6 @@ def save_fail_count(request):
         try:
             user = Account.objects.get(username=username)
             word_obj = wordBank.objects.get(word=word,word_type = word_type)
-            
             
             # เก็บข้อมูลในตาราง fail_count
             fail_entry, created = fail_count.objects.update_or_create(
