@@ -20,6 +20,20 @@ def get_random_sentence(master):
         return ret_sent.sentence
     else:
         return("I love ordergame.")
+    
+def test_get_random_sentence(master, number=None):
+    user = Account.objects.filter(username=master).first()
+    if number < 0.2 and user:
+        try:
+            sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+            return choice(sen).sentence.sentence
+        except IndexError:
+            pass
+    ret_sent = sentences.objects.order_by(F('sentence')).first()
+    if ret_sent:
+        return ret_sent.sentence
+    else:
+        return("I love ordergame.")
 
 def game(request):
     try:
