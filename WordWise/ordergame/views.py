@@ -10,11 +10,9 @@ import json
 def get_random_sentence(master):
     user = Account.objects.filter(username=master).first()
     if random() < 0.2 and user:
-        try:
-            sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+        sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+        if sen:    
             return choice(sen).sentence.sentence
-        except IndexError:
-            pass
     ret_sent = sentences.objects.order_by('?').first()
     if ret_sent:
         return ret_sent.sentence
@@ -24,11 +22,9 @@ def get_random_sentence(master):
 def test_get_random_sentence(master, number=None):
     user = Account.objects.filter(username=master).first()
     if number < 0.2 and user:
-        try:
-            sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+        sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
+        if sen:
             return choice(sen).sentence.sentence
-        except IndexError:
-            pass
     ret_sent = sentences.objects.order_by(F('sentence')).first()
     if ret_sent:
         return ret_sent.sentence
