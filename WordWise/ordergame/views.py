@@ -15,7 +15,11 @@ def get_random_sentence(master):
             return choice(sen).sentence.sentence
         except IndexError:
             pass
-    return sentences.objects.order_by('?').first().sentence
+    ret_sent = sentences.objects.order_by('?').first()
+    if ret_sent:
+        return ret_sent.sentence
+    else:
+        return("I love ordergame.")
 
 def game(request):
     try:
