@@ -5,10 +5,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from ordergame.models import sentences
 
 MAX_WAIT = 10
 
 class orderword_is_functional(StaticLiveServerTestCase):
+    fixtures = ["ordergame/fixtures/sentence_data.json"]
+
     def setUp(self):
         self.browser = webdriver.Chrome()
 
@@ -75,3 +78,36 @@ class orderword_is_functional(StaticLiveServerTestCase):
         self.assertTrue(popup.is_displayed(), "popup not showing after pressing OK")
         popup_text = popup.find_element(By.ID, "popup-message")
         self.assertIn("✅ Correct!", popup_text.text, "Not showing correct even the sentence is correct.")
+
+    def test_addwordpage(self):
+        #Navigate to add_sentence page
+        self.browser.get(self.live_server_url+"/ordergame/game")
+        add_sentence_link = self.browser.find_element(By.LINK_TEXT, "help us add more sentence")
+        add_sentence_link.click()
+
+        #Add sentence "I like ordergame"
+        sentence_box = self.browser.find_element(By.ID, "data")
+        submit_button = self.browser.find_element(By.ID, "submit-btn")
+
+        sentence_box.send_keys("I like ordergame.")
+        submit_button.click()
+        time.sleep(3)
+
+        I_like_ordergame = sentences.objects.filter(sentence="I like ordergame.").exists()
+        self.assertTrue(I_like_ordergame, "I like ordergame not added to database")
+
+        #Show "thank you" - popup
+        thank_you = self.browser.find_element(By.ID, "popup")
+        self.assertTrue(thank_you.is_displayed(), "thank_you not showing")
+        re_adding = self.browser.find_element(By.ID, "popup-close")
+        re_adding.click()
+
+        #Add sentence "I play ordergame"
+        sentence_box = self.browser.find_element(By.ID, "data")
+        submit_button = self.browser.find_element(By.ID, "submit-btn")
+
+        sentence_box.send_keys("I play ordergame.")
+        submit_button.click()
+
+        I_play_ordergame = sentences.objects.filter(sentence="I play ordergame.").exists()
+        self.assertTrue(I_play_ordergame, "I play ordergame not added to database")

@@ -18,7 +18,10 @@ def get_random_sentence(master):
     return sentences.objects.order_by('?').first().sentence
 
 def game(request):
-    master = request.session.get("username")
+    try:
+        master = request.session.get("username")
+    except:
+        master = ""
     random_sentence = get_random_sentence(master)
     addscoreurl = reverse("ordergame:addscore")
     return render(request, 'ordergame/game.html', {'the_sentence': random_sentence, 'add_sc_url': addscoreurl})
