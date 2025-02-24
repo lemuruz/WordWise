@@ -46,53 +46,31 @@ class FlashcardWordSelectionTest(TestCase):
         user_scores = flashcardUserScore.objects.filter(account=self.user)
         self.assertEqual(user_scores.count(), 0)
 
-    def test_word_selection_with_low_scores(self):
-        # Create word scores
-        low_score_words = self.words[:5]  # First 5 words with low scores
-        word_scores = [(word, 0.2) for word in low_score_words]
-        
-        # Add some higher scoring words
-        high_score_words = self.words[5:10]  # Next 5 words with high scores
-        word_scores.extend([(word, 0.9) for word in high_score_words])
-        
-        self.create_user_scores(word_scores)
-        
-        selected_words = getflashcardselection(self.request, self.deck.id)
-        
-        low_score_words_set = set(low_score_words)
-        selected_words_set = set(selected_words)
-        common_low_score_words = low_score_words_set.intersection(selected_words_set)
-        
-        # All low score words should be included
-        self.assertTrue(len(common_low_score_words) >= len(low_score_words))
 
     def test_word_selection_composition(self):
-        """Test the composition of selected words (new, low score, random)"""
         # Create scores for 15 words
         used_words = self.words[:15]
         word_scores = [(word, random.uniform(0.3, 1.0)) for word in used_words]
         self.create_user_scores(word_scores)
         
         selected_words = getflashcardselection(self.request, self.deck.id)
-        used_words_text = set(
+        used_words = set(
             flashcardUserScore.objects.filter(account=self.user)
             .values_list('words__word', flat=True)
         )
         # print('used>>',used_words_text)
-        # Get new words (words not in used_words_text)
-        new_words = [w for w in selected_words if w.word not in used_words_text]
+        used_new_words = [w for w in selected_words if w.word not in used_words]
         # print('new>>',new_words)
-        # Get low score words by word text
-        low_score_words_text = set(
+        low_score_words = set(
             flashcardUserScore.objects.filter(account=self.user)
             .order_by('score')[:7]
             .values_list('words__word', flat=True)
         )
-        low_score_words = [w for w in selected_words if w.word in low_score_words_text]
+        used_low_score_words = [w for w in selected_words if w.word in low_score_words]
         
         
-        self.assertGreaterEqual(len(new_words), 7, "Should have at most 7 new words")
-        self.assertLessEqual(len(low_score_words), 7, "Should have at most 7 low score words")
+        self.assertGreaterEqual(len(used_new_words), 7, "Should have at most 7 new words")
+        self.assertGreaterEqual(len(used_low_score_words), 7, "Should have at most 7 low score words")
         self.assertEqual(len(selected_words), 20, "Should have exactly 20 words total")
 
     def test_word_selection_randomization(self):

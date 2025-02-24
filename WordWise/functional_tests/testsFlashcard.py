@@ -206,7 +206,7 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
             buttons = ['easyBtn', 'mediumBtn', 'hardBtn']
             selected_button = self.browser.find_element(By.ID, random.choice(buttons))
             selected_button.click()
-            time.sleep(0.5)
+            # time.sleep(0.5)
 
         # เบสออกจากการเล่นแฟลชการ์ด
         self.browser.get(self.live_server_url + "/flashcard/")
@@ -236,7 +236,7 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
 
             easyBtn = self.browser.find_element(By.ID, "easyBtn")
             easyBtn.click()
-            time.sleep(1)
+            # time.sleep(1)
 
             try:
                 success_message = self.browser.find_element(By.ID, "Congratulationstext")

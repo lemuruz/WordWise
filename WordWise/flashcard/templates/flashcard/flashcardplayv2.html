@@ -7,6 +7,7 @@
     <script>
         let i = 0;  // Declare the index variable
         let words = {{ flashcardwords|safe }};  // Pass the list directly from Django to JavaScript
+        console.log(words,words.length)
         // Function to update the displayed word
         function showWord() {
             if (words.length > 0) {
