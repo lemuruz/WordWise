@@ -36,7 +36,7 @@ def get_new_word(username):
             word_object = random.choice(word_objects)
             return word_object
     except Exception as e:
-        print(f"Error getting word from database: {e}")
+        # print(f"Error getting word from database: {e}")
         # ถ้าเกิดข้อผิดพลาดจะสุ่มคำปกติ
         word_objects = list(wordBank.objects.values('word', 'meaning', 'word_type', 'translates'))
         word_object = random.choice(word_objects)
@@ -45,7 +45,7 @@ def initialize_session(request):
     """Initialize or reset game session data"""
     username = request.session.get("username")
     word_data = get_new_word(username)
-    print(word_data)
+    # print(word_data)
     request.session['word'] = word_data["word"].upper()
     request.session['meaning'] = word_data["meaning"]
     request.session['word_type'] = word_data["word_type"]

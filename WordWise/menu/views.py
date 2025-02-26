@@ -8,13 +8,19 @@ def index(request):
 
 def add_word(request):
     if request.method == "POST":
-        word_text = request.POST.get("word").strip()  # ดึงค่าที่พิมพ์
-        word_class = request.POST.get("word_type").strip()
-        word_mean = request.POST.get("word_mean").strip()
-        word_clue = request.POST.get("word_clue").strip()
-        if word_text and word_class:  # ถ้าไม่ใช่ค่าว่าง
-            wordBank.objects.get_or_create(word=word_text, word_type = word_class, meaning = word_clue , translates = word_mean)  # เพิ่มคำลงฐานข้อมูล
-            return redirect("menu:index")  # กลับไปหน้าเมนูหลังจากเพิ่มเสร็จ
+        word_text = request.POST.get("word", "").strip()
+        word_class = request.POST.get("word_type", "").strip()
+        word_mean = request.POST.get("word_mean", "").strip()
+        word_clue = request.POST.get("word_clue", "").strip()
 
-    return render(request, "menu/addword.html")  # แสดงฟอร์ม
+        if word_text and word_class and word_mean and word_clue:
+            if wordBank.objects.filter(word=word_text, translates=word_mean).exists():
+                return JsonResponse({"message": "This word and meaning already exist!"}, status=400)
+            else:
+                wordBank.objects.create(
+                    word=word_text, word_type=word_class, meaning=word_clue, translates=word_mean
+                )
+                return JsonResponse({"message": "Word added successfully!"}, status=200)
+
+    return render(request, "menu/addword.html")
 

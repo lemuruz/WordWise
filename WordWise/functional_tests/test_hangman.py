@@ -258,6 +258,8 @@ class HangmanGameTest(StaticLiveServerTestCase):
         back = self.driver.find_element(By.CLASS_NAME,"back_to_menu")
         self.assertEqual(back.text,"BACK TO MENU")
         back.click()
+        current_url = self.driver.current_url
+        self.assertEqual(current_url,self.live_server_url+"/")
+        hangman_link = self.driver.find_element(By.XPATH, "//div[@class='overlay' and text()='hangman']/parent::a")
 
-        # hangman_link = self.driver.find_element(By.LINK_TEXT, "Hangman Game")
-        # self.assertIsNotNone(hangman_link) 
+        self.assertIsNotNone(hangman_link) 
