@@ -11,6 +11,7 @@ class test_get_object(TestCase):
         self.user_played = orderUserScore.objects.create(user=self.user, sentence=self.done_sentence, score=1, times=1)
         self.new_sentence = sentences.objects.create(sentence="I haven't play this sentence.")
 
+    #if : number < 0.2 and user => get from done sentence; else : return random from all sentence
     def test_get_user_from_done(self):
         username = self.user.username
         retsen = test_get_random_sentence(master=username, number=0.1) #get from done sentence

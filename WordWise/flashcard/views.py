@@ -5,6 +5,7 @@ import json,random
 from django.http import JsonResponse
 from user.models import Account,flashcardUserScore
 from django.db.models import Avg, Count
+from django.db.models.functions import Random
 
 def index(request):
     username = request.session.get("username")
@@ -26,17 +27,19 @@ def flashcardplay(request, deck_id):
     word_count = deck_temp.words.count()
 
     if word_count > 20:
-        selected_words = getflashcardselection(request, deck_id)
+        # selected_words = getflashcardselection(request, deck_id)
         # print('janfkjasfkjandajdnasjl',selected_words)
-        words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words])
+        # words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words])
+
+        words_queryset = getflashcardselection(request, deck_id)
         
     else:
         words_queryset = deck_temp.words.all()
 
 
-    # print('>used>',words_queryset)
+    # print('>used>',len(words_queryset))
     words = list(words_queryset.values('word', 'translates', 'word_type'))
-    # print('uselist',len(words))
+    # print('uselist',len(words),words)
     return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck_temp.name,
                                                            'flashcardwords': words})
 
@@ -65,12 +68,13 @@ def getflashcardselection(request,deck_id):
 
     selected_words = list(new_words) + list(low_score_words) + list(random_words)
     random.shuffle(selected_words)
-    # print('>all>',selected_words)
+    # print('>all>',selected_words,len(selected_words))
     # print('>new>',len(new_words),new_words)
     # print('>low>',len(low_score_words),low_score_words)
     # # print('sort low',low_score_word_texts)
     # print('>ran>',random_words)
-    return  selected_words[:20] 
+    words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words]).annotate(random_order=Random()).order_by("random_order")
+    return  words_queryset[:20] 
 
 
 
