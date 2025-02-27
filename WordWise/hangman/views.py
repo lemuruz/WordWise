@@ -36,6 +36,7 @@ def get_new_word(username):
             word_object = random.choice(word_objects)
             return word_object
     except Exception as e:
+        # print(f"Error getting word from database: {e}")
         # ถ้าเกิดข้อผิดพลาดจะสุ่มคำปกติ
         word_objects = list(wordBank.objects.values('word', 'meaning', 'word_type', 'translates'))
         word_object = random.choice(word_objects)

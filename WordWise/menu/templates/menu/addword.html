@@ -72,7 +72,7 @@ a:hover {
 <body>
     <h1>Add a New Word</h1>
 
-    <form method="post">
+    <form id = "add-word-form" method="post">
         {% csrf_token %}
         
         <!-- ช่องกรอกคำ -->
@@ -119,6 +119,33 @@ a:hover {
     </form>
     
     <a href="{% url 'menu:index' %}">Back to Menu</a>  <!-- ปุ่มกลับไปหน้าเมนู -->
+    
+    <script>
+        document.getElementById("add-word-form").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent the default form submission (No page reload)
+    
+            let formData = new FormData(this);  // Collect the form data
+    
+            // Send data to Django backend using fetch (AJAX)
+            fetch("{% url 'menu:add_word' %}", {
+                method: "POST",
+                body: formData  // Pass the form data as the body of the request
+            })
+            .then(response => response.json())  // Get the response from the server in JSON format
+            .then(data => {
+                console.log(data)
+                if (data.message) {  // Check if the response contains a message
+                    alert(data.message);  // Show the alert with the message
+                } else {
+                    window.location.href = "{% url 'menu:index' %}";  // Redirect to the menu page if successful
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Something went wrong! Please try again.");  // Show an error if something went wrong
+            });
+        });
+    </script>
     
 </body>
 </html>

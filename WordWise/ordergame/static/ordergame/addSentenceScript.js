@@ -11,14 +11,16 @@ function submitSentence(event){
         }
     }).then(response => response.json())
     .then(data => {
-        console.log(data.success)
         if(data.success) {
             //TO Add popup
             document.getElementById("show-error").style.display = "none";
             document.getElementById("popup").style.display = "flex";
             document.getElementById("sentenceForm").reset();
         } else {
-            document.getElementById("show-error").style.display = "inline-block";
+            error_message = document.getElementById("show-error")
+            error_message.style.display = "inline-block";
+            error_message.textContent = data.error_msg;
+            document.getElementById("sentenceForm").reset();
         }
     })
     .catch(error => console.error("Error:", error));
