@@ -45,9 +45,15 @@ def test(request):
 
 def add_sentence(request):
     if request.method == 'POST' and request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        sentence = request.POST.get('data')
-        sentences.objects.create(sentence=sentence)
-        return JsonResponse({"success": True})
+        try:
+            sentence = request.POST.get('data')
+            sentence_exist = sentences.objects.filter(sentence=sentence)[:1]
+            if sentence_exist:
+                return JsonResponse({"success": False, "error_msg": "duplicate sentence"})
+            sentences.objects.create(sentence=sentence)
+            return JsonResponse({"success": True})
+        except:
+            return JsonResponse({"success": False, "error_msg": "unexpected error"})
     return render(request, 'ordergame/add_sentence.html')
 
 def add_score(request):
