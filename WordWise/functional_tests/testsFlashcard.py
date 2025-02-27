@@ -184,6 +184,9 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
         # เบสกดดูคำแปล
         showAnswerBtn = self.browser.find_element(By.ID, "showAnswer")
         showAnswerBtn.click()
+        WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.ID, "answer"))
+        )
         answer = self.browser.find_element(By.ID, "answer")
         self.assertTrue(answer.is_displayed())
 
@@ -209,7 +212,8 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
             # time.sleep(0.5)
 
         # เบสออกจากการเล่นแฟลชการ์ด
-        self.browser.get(self.live_server_url + "/flashcard/")
+        menuBtn = self.browser.find_element(By.ID, "flashcardMenuBtn")
+        menuBtn.click()
         
         # เบสเข้าเล่นแฟลชการ์ดชุด TOIC อีกครั้ง
         WebDriverWait(self.browser, 5).until(

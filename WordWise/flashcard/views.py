@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from user.models import Account,flashcardUserScore
 from django.db.models import Avg, Count
 from django.db.models.functions import Random
-
+from django.db.models import Q
 def index(request):
     username = request.session.get("username")
     if not username:
@@ -27,15 +27,9 @@ def flashcardplay(request, deck_id):
     word_count = deck_temp.words.count()
 
     if word_count > 20:
-        # selected_words = getflashcardselection(request, deck_id)
-        # print('janfkjasfkjandajdnasjl',selected_words)
-        # words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words])
-
-        words_queryset = getflashcardselection(request, deck_id)
-        
+        words_queryset = getflashcardselection(request, deck_id)  
     else:
         words_queryset = deck_temp.words.all()
-
 
     # print('>used>',len(words_queryset))
     words = list(words_queryset.values('word', 'translates', 'word_type'))
@@ -55,8 +49,6 @@ def getflashcardselection(request,deck_id):
     for entry in low_score_word:
         low_score_word_texts.extend(entry.words.values_list("word", flat=True))  # Extract actual word texts
 
-    low_score_word_texts = list(set(low_score_word_texts))
-
     low_score_words = wordBank.objects.filter(word__in=low_score_word_texts)
 
     used_words = flashcardUserScore.objects.filter(account=user).values_list("words", flat=True)
@@ -68,12 +60,12 @@ def getflashcardselection(request,deck_id):
 
     selected_words = list(new_words) + list(low_score_words) + list(random_words)
     random.shuffle(selected_words)
-    # print('>all>',selected_words,len(selected_words))
-    # print('>new>',len(new_words),new_words)
-    # print('>low>',len(low_score_words),low_score_words)
-    # # print('sort low',low_score_word_texts)
-    # print('>ran>',random_words)
-    words_queryset = wordBank.objects.filter(word__in=[word.word for word in selected_words]).annotate(random_order=Random()).order_by("random_order")
+
+    words_queryset = wordBank.objects.filter(
+        Q(word__in=[word.word for word in selected_words]) & 
+        Q(translates__in=[word.translates for word in selected_words])
+    )
+
     return  words_queryset[:20] 
 
 
