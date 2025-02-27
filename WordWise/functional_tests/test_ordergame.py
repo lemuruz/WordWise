@@ -91,7 +91,7 @@ class orderword_is_functional(StaticLiveServerTestCase):
 
         sentence_box.send_keys("I like ordergame.")
         submit_button.click()
-        time.sleep(2)
+        time.sleep(1)
 
         I_like_ordergame = sentences.objects.filter(sentence="I like ordergame.").exists()
         self.assertTrue(I_like_ordergame, "I like ordergame not added to database")
@@ -108,7 +108,7 @@ class orderword_is_functional(StaticLiveServerTestCase):
 
         sentence_box.send_keys("I play ordergame.")
         submit_button.click()
-        time.sleep(2)
+        time.sleep(1)
 
         I_play_ordergame = sentences.objects.filter(sentence="I play ordergame.").exists()
         self.assertTrue(I_play_ordergame, "I play ordergame not added to database")
