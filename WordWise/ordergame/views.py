@@ -12,7 +12,7 @@ def get_random_sentence(master):
     if random() < 0.2 and user:
         sen = list(orderUserScore.objects.filter(user=user).order_by(F('score').desc())[:5])
         if sen:    
-            return choice(sen).sentence.sentence
+            return choice(sen).sentence.sentence #sen => orderUserScore model object, .sentence => sentences model object, .sentence => sentences object attribute
     ret_sent = sentences.objects.order_by('?').first()
     if ret_sent:
         return ret_sent.sentence
