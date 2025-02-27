@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'flashcard/playstyle.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard Game</title>
@@ -25,11 +27,19 @@
         
         function showAnswer() {
             if (words.length > 0) {
+                // Show the answer text
                 document.getElementById("answer").innerText = ` ${words[i].translates} (${words[i].word_type}.)`;
-
+                document.getElementById("answer").classList.add("visible");
+                
+                // Move the word up
+                document.getElementById("wordDisplay").classList.add("answer-shown");
+                
+                // Show the difficulty buttons
                 document.getElementById("easyBtn").style.display = "inline-block";
                 document.getElementById("mediumBtn").style.display = "inline-block";
                 document.getElementById("hardBtn").style.display = "inline-block";
+                
+                // Hide the show answer button
                 document.getElementById("showAnswer").style.display = "none";
             } else {
                 document.getElementById("answer").innerText = "No answer available";
@@ -39,10 +49,15 @@
         function next_word() {
             if (i < words.length - 1) {
                 console.log(i)
-                i += 1;  
+                i += 1;
             } else {
                 window.location.href = "{% url 'flashcard:flashcardend' %}"
             }
+            
+            // Reset classes for animation
+            document.getElementById("wordDisplay").classList.remove("answer-shown");
+            document.getElementById("answer").classList.remove("visible");
+            
             showWord();
         }
 
@@ -75,30 +90,20 @@
     </button>
     <h1>{{ deckname }}</h1>
     
-    <h2 id="wordDisplay"></h2>
-    <p id="answer"></p>
-    <button 
-        onclick="showAnswer()"
-        id = "showAnswer"
-        >Show Answer</button>
-    <button 
-        id="easyBtn"
-        onclick="addscore(3);next_word();"
-        value=1
-        style="display: none;"
-        >Easy</button>
-    <button 
-        id="mediumBtn" 
-        onclick="addscore(2);next_word()"
-        value=2
-        style="display: none;"
-        >Medium</button>
-    <button 
-        id="hardBtn"
-        onclick="addscore(1);next_word();"
-        value=3
-        style="display: none;"
-        >Hard</button>
+    <div class="flashcard-container">
+        <div class="card-content">
+            <h2 id="wordDisplay"></h2>
+            <p id="answer"></p>
+        </div>
+        <div class="button-container">
+            <button onclick="showAnswer()" id="showAnswer">Show Answer</button>
+            <div class="response-buttons">
+                <button id="easyBtn" onclick="addscore(3);next_word();" value=1 style="display: none;">Easy</button>
+                <button id="mediumBtn" onclick="addscore(2);next_word()" value=2 style="display: none;">Medium</button>
+                <button id="hardBtn" onclick="addscore(1);next_word();" value=3 style="display: none;">Hard</button>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>
