@@ -31,11 +31,14 @@ def flashcardplay(request, deck_id):
     else:
         words_queryset = deck_temp.words.all()
 
-    # print('>used>',len(words_queryset))
-    words = list(words_queryset.values('word', 'translates', 'word_type'))
+    a_words = [{"word": e.word, "translates" : e.translates, "word_type" : e.word_type} for e in words_queryset]
+
+    # print('>used>',len(words_queryset),words_queryset)
+    #words = list(words_queryset.values('word', 'translates', 'word_type')) #list of dict type
+    print(a_words)
     # print('uselist',len(words),words)
     return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck_temp.name,
-                                                           'flashcardwords': words})
+                                                           'flashcardwords': a_words})
 
 def getflashcardselection(request,deck_id):
     username = request.session.get("username")
@@ -61,12 +64,10 @@ def getflashcardselection(request,deck_id):
     selected_words = list(new_words) + list(low_score_words) + list(random_words)
     random.shuffle(selected_words)
 
-    words_queryset = wordBank.objects.filter(
-        Q(word__in=[word.word for word in selected_words]) & 
-        Q(translates__in=[word.translates for word in selected_words])
-    )
+    # return  words_queryset[:20] 
 
-    return  words_queryset[:20] 
+    return selected_words[:20]
+
 
 
 

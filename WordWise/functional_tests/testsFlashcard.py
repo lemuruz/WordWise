@@ -214,7 +214,7 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
         # เบสออกจากการเล่นแฟลชการ์ด
         menuBtn = self.browser.find_element(By.ID, "flashcardMenuBtn")
         menuBtn.click()
-        
+
         # เบสเข้าเล่นแฟลชการ์ดชุด TOIC อีกครั้ง
         WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.ID, "TOIC"))
@@ -228,7 +228,9 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
         )
         
         # เบสเล่นจนจบชุดคำศัพท์
+        wordcount = 0
         while True:
+            wordcount +=1
             word_display = WebDriverWait(self.browser, 10).until(
                 EC.presence_of_element_located((By.ID, "wordDisplay"))
             )
@@ -241,14 +243,13 @@ class FlashcardSelectionTest(StaticLiveServerTestCase):
             easyBtn = self.browser.find_element(By.ID, "easyBtn")
             easyBtn.click()
             # time.sleep(1)
+            
+            success_messages = self.browser.find_elements(By.ID, "Congratulationstext")  # Returns a list
 
-            try:
-                success_message = self.browser.find_element(By.ID, "Congratulationstext")
-                if success_message.is_displayed():
-                    self.assertEqual(success_message.text, "Congratulations! You Have Finish this Flashcard")
-                    break
-            except:
-                continue
+            if success_messages and success_messages[0].is_displayed():
+                self.assertEqual(success_messages[0].text, "Congratulations! You Have Finish this Flashcard")
+                break
+        self.assertTrue(wordcount<=20)
 
 
 
