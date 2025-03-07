@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const filteredWords = words.filter(word => 
             word.word.toLowerCase().includes(query.toLowerCase()) || 
             word.word_type.toLowerCase().includes(query.toLowerCase())
-        );
+        ).slice(0, 5);
 
         filteredWords.forEach(word => {
             if (!selectedWords.has(word.id)) {

@@ -1,8 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#homeBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#homeBtn:hover {
+    background-color: #0056b3;
+}
+
+#user-label {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+h1 {
+    color: #343a40;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #e9ecef;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+#selectedWordsList {
+    min-height: 200px;
+    max-height: 200px; /* ปรับความสูงตามต้องการ */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background: white;
+    border-radius: 5px;
+}
+    </style>
     {% load static %}
     <link rel="stylesheet" href="{% static 'flashcard/createPagestyle.css' %}">
     <title>Create Flashcard</title>
