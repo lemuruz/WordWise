@@ -35,7 +35,6 @@ def flashcardplay(request, deck_id):
 
     # print('>used>',len(words_queryset),words_queryset)
     #words = list(words_queryset.values('word', 'translates', 'word_type')) #list of dict type
-    print(a_words)
     # print('uselist',len(words),words)
     return render(request,"flashcard/flashcardplayv2.html", {'deckname': deck_temp.name,
                                                            'flashcardwords': a_words})
